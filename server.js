@@ -14,7 +14,7 @@ app.use(morgan('tiny'));
 app.use('/api', appRouter)
 
 
-const PORT = 6000;
+const PORT = 4000 || process.env.PORT;
 
 app.get((req, res) => {
     res.send('<h1>SO IT BEGINS</h1>')
