@@ -17,7 +17,7 @@ userRouter.post('/signup', async (req, res) => {
     console.log(`Backend values: ${values}`);
 
     try{
-        const hashedPassword = await bcrypt.hash(values.password, 10)
+        // const hashedPassword = await bcrypt.hash(values.password, 10)
 
         let user = {}
         user.firstName = values.firstName
@@ -25,13 +25,32 @@ userRouter.post('/signup', async (req, res) => {
         user.userName = values.userName
         user.email = values.email
 
-
+        const hashedPassword = await bcrypt.hash(values.password, 10)
         let newUser = {...user, password: hashedPassword}
+        const userType = findUserRole(newUser);
+        console.log({"The user is a ": userType});
+
         res.status(200).send("Data received")
     }catch(err){
         res.status(500).send({message: "Bad username or password"})
     }
 })
+
+const findUserRole = (user) => {
+    
+    try{
+        const email = user.email
+        Teacher.findOne(email).then((user) => {
+            if (user && user.userType === 'teacher' || 'admin'){
+                return "teacher"
+            }else {
+                return "student"
+            }
+        })
+    }catch (err){
+        res.status(500).send({message: "Bad username or password"})
+    }
+}
 
 
 // Login
