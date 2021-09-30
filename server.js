@@ -6,12 +6,15 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
+const appRouter = require('./routers/appRouter');
+
 const app = express();
 app.use(cors());
 app.use(morgan('tiny'));
+app.use('/api', appRouter)
 
 
-const PORT = 8000;
+const PORT = 6000;
 
 app.get((req, res) => {
     res.send('<h1>SO IT BEGINS</h1>')
