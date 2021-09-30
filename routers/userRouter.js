@@ -26,6 +26,7 @@ userRouter.post('/signup', async (req, res) => {
         user.email = values.email
 
         const hashedPassword = await bcrypt.hash(values.password, 10)
+        
         let newUser = {...user, password: hashedPassword}
         const userType = findUserRole(newUser);
         console.log({"The user is a ": userType});
