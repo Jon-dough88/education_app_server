@@ -13,23 +13,24 @@ const Teacher = require('../models/teacherSchema');
 
 userRouter.post('/signup', async (req, res) => {
 
-    const {values} = req.body;
-    console.log(`Backend values: ${values}`);
+    const {firstName, lastName, userName, email, password, userType} = req.body;
+    // console.log(`Backend values: ${values}`);
 
     try{
         // const hashedPassword = await bcrypt.hash(values.password, 10)
 
         let user = {}
-        user.firstName = values.firstName
-        user.lastName = values.lastName
-        user.userName = values.userName
-        user.email = values.email
+        user.firstName = firstName
+        user.lastName = lastName
+        user.userName = userName
+        user.email = email
+        user.userType = userType
 
-        const hashedPassword = await bcrypt.hash(values.password, 10)
+        const hashedPassword = await bcrypt.hash(password, 10)
         
         let newUser = {...user, password: hashedPassword}
-        const userType = findUserRole(newUser);
-        console.log({"The user is a ": userType});
+        const role = findUserRole(newUser.email);
+        console.log({"The user is a ": role});
 
         res.status(200).send("Data received")
     }catch(err){
@@ -37,10 +38,10 @@ userRouter.post('/signup', async (req, res) => {
     }
 })
 
-const findUserRole = (user) => {
+const findUserRole = (email) => {
     
     try{
-        const email = user.email
+        // const email = data
         Teacher.findOne(email).then((user) => {
             if (user && user.userType === 'teacher' || 'admin'){
                 return "teacher"
