@@ -12,6 +12,9 @@ const appRouter = require('./routers/appRouter');
 
 const app = express();
 app.use(cors());
+app.use(express.urlencoded({
+    extended: true
+}))
 app.use(morgan('tiny'));
 app.use('/api', appRouter)
 
