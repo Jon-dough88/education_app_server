@@ -17,17 +17,12 @@ const Teacher = require('../models/teacherSchema');
 
 userRouter.post('/signup', async (req, res) => {
 
-    
-
-    
-
     try{
-        // const hashedPassword = await bcrypt.hash(values.password, 10)
 
         const values = req.body;
-        console.log(`Backend values: ${values}`);
+        // console.log(`Backend values: ${values}`);
         // console.log(values.email)
-        
+
         let user = {}
         user.firstName = values.firstName
         user.lastName = values.lastName
@@ -38,26 +33,36 @@ userRouter.post('/signup', async (req, res) => {
         const hashedPassword = await bcrypt.hash(values.password, 10)
         
         let newUser = {...user, password: hashedPassword}
-        const userType = findUserRole(newUser);
-        console.log({"The user is a ": userType});
+        // const userType = findUserRole(newUser);
+        // console.log({"The user is a ": userType});
 
-        res.status(200).send("Data received")
+        console.log(newUser.userType)
+
+        saveData(newUser)
+        res.status(200).send("Data has been saved")
     }catch(err){
         res.status(500).send({err, message: "Bad username or password"})
     }
 })
 
-const findUserRole = (user) => {
+const saveData = async (user) => {
     
     try{
-        const email = user.email
-        Teacher.findOne(email).then((user) => {
-            if (user && user.userType === 'teacher' || 'admin'){
-                return "teacher"
-            }else {
-                return "student"
-            }
-        })
+      switch (user.userType) {
+            case 'teacher' || 'admin':
+               let newTeacher = new Teacher(user)
+               await newTeacher.save()
+              break;
+            case 'student':
+               let newStudent = new Student(user)
+               await newStudent.save()
+              break  
+            case null:
+                return "User unauthorized"
+            
+          default: 
+              break;
+      }
     }catch (err){
         res.status(500).send({message: "Bad username or password"})
     }
