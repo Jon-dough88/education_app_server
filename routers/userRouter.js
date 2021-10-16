@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
-let jsonParser = bodyParser.json();
+// let jsonParser = bodyParser.json();
 
 const bcrypt = require('bcrypt');
 
@@ -15,7 +15,7 @@ const Teacher = require('../models/teacherSchema');
 
 // Signing up
 
-userRouter.post('/signup', jsonParser, async (req, res) => {
+userRouter.post('/signup', async (req, res) => {
 
     const values = req.body;
     console.log(`Backend values: ${values}`);
