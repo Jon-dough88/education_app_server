@@ -17,7 +17,7 @@ const Teacher = require('../models/teacherSchema');
 
 userRouter.post('/signup', jsonParser, async (req, res) => {
 
-    const {values} = req.body;
+    const values = req.body;
     console.log(`Backend values: ${values}`);
 
     try{
