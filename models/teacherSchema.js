@@ -55,5 +55,4 @@ const teacherSchema = mongoose.Schema({
     ]
 }, {collection: 'teacherData'})
 
-const Teacher = mongoose.model('Teacher', teacherSchema);
-module.exports = Teacher;
+module.exports = Teacher = mongoose.model('Teacher', teacherSchema);
