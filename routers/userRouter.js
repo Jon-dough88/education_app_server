@@ -38,43 +38,54 @@ userRouter.post('/signup', async (req, res) => {
 
         console.log(newUser.userType)
 
-        saveData(newUser)
-        res.status(200).send("Data has been saved")
+        if(user.userType === 'teacher' || user.userType === 'admin') {
+            let teacherData = new Teacher(user)
+            await teacherData.save() 
+            res.status(200).send("Data has been saved")
+        }else if(user.userType === 'student'){
+            let studentData = new Student(user)
+            await studentData.save()
+            res.status(200).send("Data has been saved")
+        }else{
+            res.status(400).send("Error: User not created")
+        }
+        // saveData(newUser)
+        
     }catch(err){
         res.status(500).send({err, message: "Bad username or password"})
     }
 })
 
-const saveData = async (user) => {
+// const saveData = async (user) => {
     
-    try{
-    //   switch (user.userType) {
-    //         case 'teacher' || 'admin':
-    //            let newTeacher = new Teacher(user)
-    //            await newTeacher.save()
-    //           break;
-    //         case 'student':
-    //            let newStudent = new Student(user)
-    //            await newStudent.save()
-    //           break  
-    //         case null:
-    //             return "User unauthorized"
+//     try{
+//     //   switch (user.userType) {
+//     //         case 'teacher' || 'admin':
+//     //            let newTeacher = new Teacher(user)
+//     //            await newTeacher.save()
+//     //           break;
+//     //         case 'student':
+//     //            let newStudent = new Student(user)
+//     //            await newStudent.save()
+//     //           break  
+//     //         case null:
+//     //             return "User unauthorized"
             
-    //       default: 
-    //           break;
+//     //       default: 
+//     //           break;
 
-        if(user.userType === 'teacher' || user.userType === 'admin') {
-            let teacherData = new Teacher(user)
-            await teacherData.save()    
-        }else{
-            let studentData = new Student(user)
-            await studentData.save()
-        }
+//         if(user.userType === 'teacher' || user.userType === 'admin') {
+//             let teacherData = new Teacher(user)
+//             await teacherData.save()    
+//         }else{
+//             let studentData = new Student(user)
+//             await studentData.save()
+//         }
       
-    }catch (err){
-        res.status(500).send({message: "Bad username or password"})
-    }
-}
+//     }catch (err){
+//         res.status(500).send({message: "Bad username or password"})
+//     }
+// }
 
 
 // Login
