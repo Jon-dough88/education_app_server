@@ -20,9 +20,9 @@ app.use((req, res, next) => {
 
 const PORT = 4000 || process.env.PORT;
 
-app.get((req, res) => {
-    res.send('<h1>SO IT BEGINS</h1>')
-})
+// app.get((req, res) => {
+//     res.send('<h1>SO IT BEGINS</h1>')
+// })
 
 mongoose.connect(process.env.CONNECTION_URL, {useNewUrlParser: true, useUnifiedTopology: true})
     .then(()=>{
