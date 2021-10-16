@@ -1,6 +1,5 @@
 const express = require('express');
-const bodyParser = require('body-parser');
-
+// const bodyParser = require('body-parser');
 // let jsonParser = bodyParser.json();
 
 const bcrypt = require('bcrypt');
@@ -9,6 +8,9 @@ const userRouter = express.Router();
 
 const Student = require('../models/studentSchema');
 const Teacher = require('../models/teacherSchema');
+
+
+
 
 // ****** CRUD operations ******
 
@@ -37,15 +39,17 @@ userRouter.post('/signup', async (req, res) => {
         // console.log({"The user is a ": userType});
 
         console.log(newUser.userType)
+        res.setHeader('Access-Control-Allow-Origin','*');
+        res.setHeader('Access-Control-Allow-Credentials',true);
 
         if(newUser.userType === 'teacher') {
             let teacherData = new Teacher(newUser)
             await teacherData.save() 
-            res.status(200).send("Data has been saved")
+            res.status(200).send("New teacher added to the system")
         }else if(newUser.userType === 'student'){
             let studentData = new Student(newUser)
             await studentData.save()
-            res.status(200).send("Data has been saved")
+            res.status(200).send("New student added to the system")
         }else{
             res.status(400).send("Error: User not created")
         }
