@@ -56,7 +56,7 @@ const studentSchema = mongoose.Schema({
         completedOn: Date,
         score: Number
     }]
-}, {collection: 'Peers.studentData'})
+}, {collection: 'studentData'})
 
 
 module.exports = Student = mongoose.model('Student', studentSchema);

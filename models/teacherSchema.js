@@ -53,6 +53,6 @@ const teacherSchema = mongoose.Schema({
 
         }
     ]
-}, {collection: 'Peers.teacherData'})
+}, {collection: 'teacherData'})
 
 module.exports = Teacher = mongoose.model('Teacher', teacherSchema);
