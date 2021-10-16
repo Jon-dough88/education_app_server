@@ -38,12 +38,12 @@ userRouter.post('/signup', async (req, res) => {
 
         console.log(newUser.userType)
 
-        if(user.userType === 'teacher' || user.userType === 'admin') {
-            let teacherData = new Teacher(user)
+        if(newUser.userType === 'teacher' || newUser.userType === 'admin') {
+            let teacherData = new Teacher(newUser)
             await teacherData.save() 
             res.status(200).send("Data has been saved")
-        }else if(user.userType === 'student'){
-            let studentData = new Student(user)
+        }else if(newUser.userType === 'student'){
+            let studentData = new Student(newUser)
             await studentData.save()
             res.status(200).send("Data has been saved")
         }else{
