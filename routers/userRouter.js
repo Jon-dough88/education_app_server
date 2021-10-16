@@ -17,12 +17,17 @@ const Teacher = require('../models/teacherSchema');
 
 userRouter.post('/signup', async (req, res) => {
 
-    const values = req.body;
-    console.log(`Backend values: ${values}`);
+    
+
+    
 
     try{
         // const hashedPassword = await bcrypt.hash(values.password, 10)
 
+        const values = req.body;
+        console.log(`Backend values: ${values}`);
+        // console.log(values.email)
+        
         let user = {}
         user.firstName = values.firstName
         user.lastName = values.lastName
@@ -38,7 +43,7 @@ userRouter.post('/signup', async (req, res) => {
 
         res.status(200).send("Data received")
     }catch(err){
-        res.status(500).send({message: "Bad username or password"})
+        res.status(500).send({err, message: "Bad username or password"})
     }
 })
 
