@@ -1,6 +1,5 @@
 const express = require('express');
-// const bodyParser = require('body-parser');
-// let jsonParser = bodyParser.json();
+const jwt = require('jsonwebtoken');
 
 const bcrypt = require('bcrypt');
 
@@ -104,7 +103,13 @@ const passwordCheck = (user, password) => {
         if(err) {
             return res.status(400).json({message: "Username or password incorrect"})
         }else if (passwordsMatch){
-            
+            const token = jwt.sign({
+                id: user._id,
+                userName: user.userName,
+                userType: user.userType
+            }, 
+                
+            )
         }
     })
 } 
