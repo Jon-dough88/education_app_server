@@ -69,16 +69,17 @@ userRouter.post('/login', async (req, res) => {
         const loginValues = req.body;
         console.log(loginValues.userName)
 
-        findUserByName(loginValues.userName, loginValues.password)
-
-        console.log(token)
+        findUserByName(loginValues.userName, loginValues.password, req, res)
+        .then(token => {
+            console.log({"Token: ": token})
+        })
 
     } catch (error) {
         console.log(error)
     }
 })
 
-const findUserByName = async (userName, password) => {
+const findUserByName = async (userName, password, req, res) => {
     try{
         await Teacher.find({userName}).then((user) => {
             if (user && user.userType === 'teacher' || 'admin'){
@@ -88,7 +89,7 @@ const findUserByName = async (userName, password) => {
                 Student.find(userName).then((user) => {
                     if(user && user.userType === 'student') {
                         console.log(`User ${userName} is a student!`)
-                        passwordCheck(user, password)  
+                        passwordCheck(user, password, res)  
                     }
                 })
             }else{
@@ -103,13 +104,13 @@ const findUserByName = async (userName, password) => {
     }
 }
 
-const passwordCheck = (user, password) => {
+const passwordCheck = (user, password, res) => {
 
     console.log({"The user is: ": user})
 
     bcrypt.compare(password, user.password, (err, passwordsMatch) => {
         if(err) {
-            return err
+            res.status(400).json({message: "Wrong user name or password"})
         }else if (passwordsMatch){
             const token = jwt.sign({
                 id: user._id,
@@ -121,9 +122,11 @@ const passwordCheck = (user, password) => {
                     expiresIn: "30min"
                 }    
             )
-            return token
+            res.status(200).json({message: `User ${user.userName} is now logged in!`, token: token, userName: user.userName, userType: user.userType})
         }
+        
     })
+    
 } 
 
 // Fetching user data
