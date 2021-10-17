@@ -81,12 +81,12 @@ const findUserByName = async (userName, password) => {
         await Teacher.find({userName}).then((user) => {
             if (user && user.userType === 'teacher' || 'admin'){
                 console.log(`User ${userName} is a teacher!`)
-                passwordCheck(user, user.password)    
+                passwordCheck(user, password)    
             }else if(user && user.userType === 'student'){
                 Student.find(userName).then((user) => {
                     if(user && user.userType === 'student') {
                         console.log(`User ${userName} is a student!`)
-                        passwordCheck(user, user.password)  
+                        passwordCheck(user, password)  
                     }
                 })
             }else{
@@ -102,6 +102,9 @@ const findUserByName = async (userName, password) => {
 }
 
 const passwordCheck = (user, password) => {
+
+    console.log({"The user is: ": user})
+
     bcrypt.compare(password, user.password, (err, passwordsMatch) => {
         if(err) {
             return res.status(400).json({message: "Username or password incorrect"})
@@ -116,6 +119,7 @@ const passwordCheck = (user, password) => {
                     expiresIn: "30min"
                 }    
             )
+            return res.status(200).json({message: `User ${userName} is logged in`, token, userName: user.userName, userType: user.userType})
         }
     })
 } 
