@@ -77,9 +77,11 @@ userRouter.post('/login', async (req, res) => {
     }
 })
 
-const findUserByName = async (userName, password, res) => {
+const findUserByName = async (userName, loginPassword, res) => {
     try{
         await Teacher.find({userName}).then((user) => {
+
+            console.log({"The user's password'": password})
 
             if (user && user.userType === 'teacher' || 'admin'){
                 console.log(`User ${userName} is a teacher!`)
@@ -106,11 +108,14 @@ const findUserByName = async (userName, password, res) => {
 
 const passwordCheck = async (user, password, res) => {
 
-    try{
+        console.log({"Request password: ": password})
+        console.log(user.password)
+    
         bcrypt.compare(password, user.password, (err, passwordsMatch) => {
             if(err) {
-               res.status(400).json({message: "Wrong username or password"})
-            }else if (passwordsMatch){
+               return res.status(400).json({message: "Wrong username or password"})
+            }
+            if (passwordsMatch){
                 const token = jwt.sign({
                     id: user._id,
                     userName: user.userName,
@@ -121,13 +126,10 @@ const passwordCheck = async (user, password, res) => {
                         expiresIn: "30min"
                     }    
                 )
-                res.status(200).json({message: `User ${user.userName} is now logged in!`, token: token, userName: user.userName, userType: user.userType})
+                return res.status(200).json({message: `User ${user.userName} is now logged in!`, token: token, userName: user.userName, userType: user.userType})
             }
-            
+            return res.status(400).json({message: "Incorrect username or password!"})
         });
-    }catch(err){
-        res.status(400).json({message: "Password or username not found. Please try again."})
-    }
    
     
 } 
