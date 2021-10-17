@@ -71,6 +71,8 @@ userRouter.post('/login', async (req, res) => {
 
         findUserByName(loginValues.userName, loginValues.password)
 
+        console.log(token)
+
     } catch (error) {
         console.log(error)
     }
@@ -107,7 +109,7 @@ const passwordCheck = (user, password) => {
 
     bcrypt.compare(password, user.password, (err, passwordsMatch) => {
         if(err) {
-            return res.status(400).json({message: "Username or password incorrect"})
+            return err
         }else if (passwordsMatch){
             const token = jwt.sign({
                 id: user._id,
@@ -119,7 +121,7 @@ const passwordCheck = (user, password) => {
                     expiresIn: "30min"
                 }    
             )
-            return res.status(200).json({message: `User ${userName} is logged in`, token, userName: user.userName, userType: user.userType})
+            return token
         }
     })
 } 
