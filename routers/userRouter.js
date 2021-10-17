@@ -79,13 +79,16 @@ userRouter.post('/login', async (req, res) => {
 
 const findUserByName = async (userName, loginPassword, res) => {
     try{
-        await Teacher.find({userName}).then((user) => {
+        await Teacher.find({userName}).then((userData) => {
 
-            console.log({"The user's password'": password})
+            console.log({"The user's password is ": loginPassword})
+            
+            const [user] = userData;
+            console.log(user.password)
 
             if (user && user.userType === 'teacher' || 'admin'){
                 console.log(`User ${userName} is a teacher!`)
-                passwordCheck(user, password, res) 
+                passwordCheck(user, loginPassword, res) 
 
             }else if(user && user.userType === 'student'){
                 Student.find(userName).then((user) => {
@@ -108,8 +111,8 @@ const findUserByName = async (userName, loginPassword, res) => {
 
 const passwordCheck = async (user, password, res) => {
 
-        console.log({"Request password: ": password})
-        console.log(user.password)
+        // console.log({"Request password: ": password})
+        // console.log(user.password)
     
         bcrypt.compare(password, user.password, (err, passwordsMatch) => {
             if(err) {
