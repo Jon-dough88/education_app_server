@@ -3,10 +3,12 @@ const jwt = require('jsonwebtoken');
 
 const bcrypt = require('bcrypt');
 
+
 const userRouter = express.Router();
 
 const Student = require('../models/studentSchema');
 const Teacher = require('../models/teacherSchema');
+const randomString = require('../utils/string');
 
 
 
@@ -108,7 +110,10 @@ const passwordCheck = (user, password) => {
                 userName: user.userName,
                 userType: user.userType
             }, 
-                
+                process.env.ACCESS_TOKEN_SECRET,
+                {
+                    expiresIn: "30min"
+                }    
             )
         }
     })
