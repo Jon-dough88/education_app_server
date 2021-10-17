@@ -79,13 +79,15 @@ const findUserByName = async (userName) => {
     try{
         await Teacher.find({userName}).then((user) => {
             if (user && user.userType === 'teacher' || 'admin'){
-                console.log(`User ${user} is a teacher!`)
-            }else{
+                console.log(`User ${user.userName} is a teacher!`)
+            }else if(user && user.userType === 'student'){
                 Student.find(userName).then((user) => {
                     if(user && user.userType === 'student') {
                         console.log(`User ${user.userName} is a student!`)
                     }
                 })
+            }else{
+                return res.status(400).json({message: "Username or password failed"})
             }
         })
         .catch(error => {
@@ -95,6 +97,10 @@ const findUserByName = async (userName) => {
         console.log(error)
     }
 }
+
+const passwordCheck = (user) => {
+
+} 
 
 // Fetching user data
 
