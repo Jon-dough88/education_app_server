@@ -81,11 +81,12 @@ const findUserByName = async (userName, password) => {
         await Teacher.find({userName}).then((user) => {
             if (user && user.userType === 'teacher' || 'admin'){
                 console.log(`User ${userName} is a teacher!`)
-
+                passwordCheck(user, user.password)    
             }else if(user && user.userType === 'student'){
                 Student.find(userName).then((user) => {
                     if(user && user.userType === 'student') {
                         console.log(`User ${userName} is a student!`)
+                        passwordCheck(user, user.password)  
                     }
                 })
             }else{
