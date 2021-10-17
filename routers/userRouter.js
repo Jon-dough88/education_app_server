@@ -69,10 +69,32 @@ userRouter.post('/login', async (req, res) => {
         console.log(loginValues.userName)
 
         findUserByName(loginValues.userName)
+
     } catch (error) {
-        
+        console.log(error)
     }
 })
+
+const findUserByName = async (userName) => {
+    try{
+        await Teacher.find({userName}).then((user) => {
+            if (user && user.userType === 'teacher' || 'admin'){
+                console.log(`User ${user} is a teacher!`)
+            }else{
+                Student.find(userName).then((user) => {
+                    if(user && user.userType === 'student') {
+                        console.log(`User ${user.userName} is a student!`)
+                    }
+                })
+            }
+        })
+        .catch(error => {
+            console.log(error)
+        })
+    }catch(error){
+        console.log(error)
+    }
+}
 
 // Fetching user data
 
