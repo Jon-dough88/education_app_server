@@ -68,22 +68,23 @@ userRouter.post('/login', async (req, res) => {
         const loginValues = req.body;
         console.log(loginValues.userName)
 
-        findUserByName(loginValues.userName)
+        findUserByName(loginValues.userName, loginValues.password)
 
     } catch (error) {
         console.log(error)
     }
 })
 
-const findUserByName = async (userName) => {
+const findUserByName = async (userName, password) => {
     try{
         await Teacher.find({userName}).then((user) => {
             if (user && user.userType === 'teacher' || 'admin'){
-                console.log(`User ${user.userName} is a teacher!`)
+                console.log(`User ${userName} is a teacher!`)
+
             }else if(user && user.userType === 'student'){
                 Student.find(userName).then((user) => {
                     if(user && user.userType === 'student') {
-                        console.log(`User ${user.userName} is a student!`)
+                        console.log(`User ${userName} is a student!`)
                     }
                 })
             }else{
@@ -98,8 +99,14 @@ const findUserByName = async (userName) => {
     }
 }
 
-const passwordCheck = (user) => {
-
+const passwordCheck = (user, password) => {
+    bcrypt.compare(password, user.password, (err, passwordsMatch) => {
+        if(err) {
+            return res.status(400).json({message: "Username or password incorrect"})
+        }else if (passwordsMatch){
+            
+        }
+    })
 } 
 
 // Fetching user data
