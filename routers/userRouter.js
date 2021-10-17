@@ -60,41 +60,19 @@ userRouter.post('/signup', async (req, res) => {
     }
 })
 
-// const saveData = async (user) => {
-    
-//     try{
-//     //   switch (user.userType) {
-//     //         case 'teacher' || 'admin':
-//     //            let newTeacher = new Teacher(user)
-//     //            await newTeacher.save()
-//     //           break;
-//     //         case 'student':
-//     //            let newStudent = new Student(user)
-//     //            await newStudent.save()
-//     //           break  
-//     //         case null:
-//     //             return "User unauthorized"
-            
-//     //       default: 
-//     //           break;
-
-//         if(user.userType === 'teacher' || user.userType === 'admin') {
-//             let teacherData = new Teacher(user)
-//             await teacherData.save()    
-//         }else{
-//             let studentData = new Student(user)
-//             await studentData.save()
-//         }
-      
-//     }catch (err){
-//         res.status(500).send({message: "Bad username or password"})
-//     }
-// }
-
 
 // Login
 
+userRouter.post('/login', async (req, res) => {
+    try {
+        const loginValues = req.body;
+        console.log(loginValues.userName)
 
+        findUserByName(loginValues.userName)
+    } catch (error) {
+        
+    }
+})
 
 // Fetching user data
 
