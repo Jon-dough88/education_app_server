@@ -144,7 +144,12 @@ const passwordCheck = async (user, password, res) => {
 // Fetching user data
 
 userRouter.get('/user/:id', authenticateToken, (req, res) => {
+    try{
+        res.send(req.user);
 
+    }catch(err){
+        res.status(400).json({"Error": err})
+    }
 })
 
 
