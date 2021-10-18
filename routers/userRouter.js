@@ -3,12 +3,17 @@ const jwt = require('jsonwebtoken');
 
 const bcrypt = require('bcrypt');
 
-
 const userRouter = express.Router();
 
+// Mongoose schema refs
 const Student = require('../models/studentSchema');
 const Teacher = require('../models/teacherSchema');
+
+const authenticateToken  = require('../authentication/authenticateToken');
+
+// A function for creating random strings
 const randomString = require('../utils/string');
+
 
 
 
@@ -139,7 +144,7 @@ const passwordCheck = async (user, password, res) => {
 // Fetching user data
 
 userRouter.get('/user/:id', (req, res) => {
-    
+
 })
 
 
