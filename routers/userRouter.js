@@ -80,11 +80,8 @@ userRouter.post('/login', async (req, res) => {
 const findUserByName = async (userName, loginPassword, res) => {
     try{
         await Teacher.find({userName}).then((userData) => {
-
-            console.log({"The user's password is ": loginPassword})
             
             const [user] = userData;
-            console.log(user.password)
 
             if (user && user.userType === 'teacher' || 'admin'){
                 console.log(`User ${userName} is a teacher!`)
@@ -103,6 +100,7 @@ const findUserByName = async (userName, loginPassword, res) => {
         })
         .catch(error => {
             console.log(error)
+            return res(400).json({message: "Bad username or password"})
         })
     }catch(error){
         console.log(error)
@@ -136,6 +134,7 @@ const passwordCheck = async (user, password, res) => {
    
     
 } 
+
 
 // Fetching user data
 
