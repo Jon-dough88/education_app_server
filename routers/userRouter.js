@@ -143,7 +143,7 @@ const passwordCheck = async (user, password, res) => {
 
 // Fetching user data
 
-userRouter.get('/user/:id', (req, res) => {
+userRouter.get('/user/:id', authenticateToken, (req, res) => {
 
 })
 
