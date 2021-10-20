@@ -132,8 +132,9 @@ const passwordCheck = async (user, password, res) => {
                         expiresIn: "30min"
                     }    
                 )
-                res.status(200).json({message: `User ${user.userName} is now logged in!`, token: token, userName: user.userName, userType: user.userType})
                 res.cookie('token', token, { httpOnly: true})
+                res.status(200).json({message: `User ${user.userName} is now logged in!`, token: token, userName: user.userName, userType: user.userType})
+                
             }
             return res.status(400).json({message: "Incorrect username or password!"})
         });
