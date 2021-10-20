@@ -12,7 +12,7 @@ const appRouter = require('./routers/appRouter');
 
 const app = express();
 app.use(cors());
-app.use(cookieParser);
+app.use(cookieParser());
 app.use(express.urlencoded({
     extended: true
 }))
