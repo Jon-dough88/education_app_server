@@ -10,7 +10,7 @@ const authenticateToken = (req, res, next) => {
            if(err){
                res.sendStatus(403).send({message: "Access denied"})
            }else {
-            req.user = verified
+           req.user = verified
            
             next();
              
