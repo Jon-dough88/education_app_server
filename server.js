@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-
+const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
@@ -12,6 +12,7 @@ const appRouter = require('./routers/appRouter');
 
 const app = express();
 app.use(cors());
+app.use(cookieParser);
 app.use(express.urlencoded({
     extended: true
 }))
