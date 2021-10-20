@@ -7,7 +7,6 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon server.js"
   },
-  "proxy": "http://localhost:4000",
   "author": "jon_dough",
   "license": "ISC",
   "dependencies": {
