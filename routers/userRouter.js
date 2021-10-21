@@ -132,8 +132,13 @@ const passwordCheck = async (user, password, res) => {
                         expiresIn: "30min"
                     }    
                 )
-                res.cookie('token', token, { httpOnly: true})
-                return res.status(200).json({message: `User ${user.userName} is now logged in!`, token: token, userName: user.userName, userType: user.userType})
+               
+                return res.cookie('token', token, { httpOnly: true, secure: process.env.COOKIE_SECRET})
+                .status(200)
+                .json({message: `User ${user.userName} is now logged in!`, 
+                            token: token, 
+                            userName: user.userName, 
+                            userType: user.userType})
                 
             }
             return res.status(400).json({message: "Incorrect username or password!"})
@@ -145,9 +150,7 @@ const passwordCheck = async (user, password, res) => {
 
 // Fetching user data
 
-userRouter.get('/user', 
-// authenticateToken, 
-(req, res) => {
+userRouter.get('/user', authenticateToken, (req, res) => {
     try{
         res.send(req.user);
 
