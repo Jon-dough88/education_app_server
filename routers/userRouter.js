@@ -129,7 +129,7 @@ const passwordCheck = async (user, password, res) => {
                 }, 
                     process.env.ACCESS_TOKEN_SECRET,
                     {
-                        expiresIn: "30min"
+                        expiresIn: "2min"
                     }    
                 )
                
