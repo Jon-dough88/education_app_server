@@ -135,7 +135,7 @@ const passwordCheck = async (user, password, res) => {
                
                 return res.cookie('token', token, { httpOnly: true })
                 .status(200)
-                .json({token: token, 
+                .send({token: token, 
                        userName: user.userName, 
                        userType: user.userType})
                 
