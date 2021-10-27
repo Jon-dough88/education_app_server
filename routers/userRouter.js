@@ -132,6 +132,8 @@ const passwordCheck = async (user, password, res) => {
                         expiresIn: "2min"
                     }    
                 )
+
+                const refreshToken = {}
                
                 // return res.cookie('token', token, { httpOnly: true })
                 // .status(200)
