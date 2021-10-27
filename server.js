@@ -7,11 +7,16 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
+const frontendUrl = 'http://localhost:3000';
+
 
 const appRouter = require('./routers/appRouter');
 
 const app = express();
-app.use(cors());
+app.use(cors({
+    credentials: true,
+    origin: `${frontendUrl}`
+}));
 app.use(cookieParser());
 app.use(express.urlencoded({
     extended: true
