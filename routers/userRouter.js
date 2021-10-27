@@ -133,8 +133,13 @@ const passwordCheck = async (user, password, res) => {
                     }    
                 )
                
-                return res.cookie('token', token, { httpOnly: true })
-                .status(200)
+                // return res.cookie('token', token, { httpOnly: true })
+                // .status(200)
+                // .send({token: token, 
+                //        userName: user.userName, 
+                //        userType: user.userType})
+
+                return res.status(200)
                 .send({token: token, 
                        userName: user.userName, 
                        userType: user.userType})
