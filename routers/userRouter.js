@@ -122,7 +122,7 @@ const passwordCheck = async (user, password, res) => {
                return res.status(400).json({message: "Wrong username or password"})
             }
             if (passwordsMatch){
-                const token = jwt.sign({
+                const accessToken = jwt.sign({
                     id: user._id,
                     userName: user.userName,
                     userType: user.userType
@@ -140,7 +140,7 @@ const passwordCheck = async (user, password, res) => {
                 //        userType: user.userType})
 
                 return res.status(200)
-                .send({token: token, 
+                .send({accessToken: accessToken, 
                        userName: user.userName, 
                        userType: user.userType})
                 
