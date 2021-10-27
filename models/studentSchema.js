@@ -26,6 +26,7 @@ const studentSchema = mongoose.Schema({
         type: String, 
         required: true
     },
+    refreshToken: Object,
     class: [{
         type: String
     }],
