@@ -36,7 +36,7 @@ const PORT = 4000 || process.env.PORT;
 //     res.send('<h1>SO IT BEGINS</h1>')
 // })
 
-mongoose.connect(process.env.CONNECTION_URL, {useNewUrlParser: true, useUnifiedTopology: true})
+mongoose.connect(process.env.CONNECTION_URL, {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false})
     .then(()=>{
         console.log('DB connected!')
     })

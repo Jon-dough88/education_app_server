@@ -112,10 +112,21 @@ const findUserByName = async (userName, loginPassword, res) => {
     }
 }
 
+// let createAccessToken = (user) => {
+//     return jwt.sign({
+//         id: user._id,
+//         userName: user.userName,
+//         userType: user.userType
+//     }, 
+//         process.env.ACCESS_TOKEN_SECRET,
+//         {
+//             expiresIn: "2min"
+//         }    
+//     )
+// }
+
 const passwordCheck = async (user, password, res) => {
 
-        // console.log({"Request password: ": password})
-        // console.log(user.password)
     
         bcrypt.compare(password, user.password, (err, passwordsMatch) => {
             if(err) {
@@ -133,7 +144,15 @@ const passwordCheck = async (user, password, res) => {
                     }    
                 )
 
-                const refreshToken = {}
+                const refreshToken = jwt.sign({
+                    type: "refresh", 
+                }, process.env.ACCESS_TOKEN_SECRET,
+                    {
+                        expiresIn: "2hrs"
+                    }
+                )
+
+                saveRefreshToken(user, refreshToken, res)
                
                 // return res.cookie('token', token, { httpOnly: true })
                 // .status(200)
@@ -152,6 +171,34 @@ const passwordCheck = async (user, password, res) => {
    
     
 } 
+
+let saveRefreshToken = async (user, refreshToken, res) => {
+    try{
+        
+        console.log(`The user at the refresh token function is: ${user}`)
+        if(user && user.userType === 'teacher'){
+            await Teacher.findByIdAndUpdate({_id: user._id}, {refreshToken: refreshToken}, (err, result) => {
+                if(err){
+                    res.status(400).send({error: err})
+                }else{
+                    res.status(200).send(result)
+                }
+            })
+        }else if (user.userType === 'student') {
+            await Student.findByIdAndUpdate({_id: user._id}, {refreshToken: refreshToken}, (err, result) => {
+                if(err){
+                    res.status(400).send({error: err})
+                }else{
+                    res.status(200).send(result)
+                }
+            })
+        }
+        res.status(404).send({message: "Refresh token invalid"})
+    }catch (err) {
+        res.status(401).send({error: err})
+    }
+}
+
 
 
 // Fetching user data
