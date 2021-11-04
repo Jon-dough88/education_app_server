@@ -140,13 +140,13 @@ const passwordCheck = async (user, password, res) => {
                 }, 
                     process.env.ACCESS_TOKEN_SECRET,
                     {
-                        expiresIn: "2min"
+                        expiresIn: "5min"
                     }    
                 )
 
                 const refreshToken = jwt.sign({
                     type: "refresh", 
-                }, process.env.ACCESS_TOKEN_SECRET,
+                }, process.env.REFRESH_TOKEN_SECRET,
                     {
                         expiresIn: "2hrs"
                     }
@@ -154,9 +154,8 @@ const passwordCheck = async (user, password, res) => {
 
                 saveRefreshToken(user, refreshToken, res)
                
-                // return res.cookie('token', token, { httpOnly: true })
-                // .status(200)
-                // .send({token: token, 
+                // res.cookie('refreshToken', refreshToken, { httpOnly: true })
+                // res.status(200).send({accessToken: accessToken, 
                 //        userName: user.userName, 
                 //        userType: user.userType})
 
@@ -175,7 +174,7 @@ const passwordCheck = async (user, password, res) => {
 let saveRefreshToken = async (user, refreshToken, res) => {
     try{
         
-        console.log(`The user at the refresh token function is: ${user}`)
+        // console.log(`The user at the refresh token function is: ${user}`)
         if(user && user.userType === 'teacher'){
             await Teacher.findByIdAndUpdate({_id: user._id}, {refreshToken: refreshToken}, (err, result) => {
                 if(err){
@@ -203,12 +202,24 @@ let saveRefreshToken = async (user, refreshToken, res) => {
 
 // Fetching user data
 
-userRouter.get('/user', authenticateToken, (req, res) => {
-    try{
-        res.send(req.user);
+// userRouter.get('/user', authenticateToken, (req, res) => {
+//     try{
+//         res.send(req.user);
 
-    }catch(err){
-        res.status(400).json({"Error": err})
+//     }catch(err){
+//         res.status(400).json({"Error": err})
+//     }
+// })
+
+
+// userRouter.post('/authToken', authenticateToken, (req, res) => {
+userRouter.post('/authToken', (req, res) => {
+    try {
+        const accessToken = req.body;
+        console.log(`The access token is: ${accessToken}`)
+        res.send(req.user);
+    }catch(err) {
+        res.status(403).send({message: "Unauthorized user"})
     }
 })
 
