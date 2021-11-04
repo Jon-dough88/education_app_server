@@ -217,7 +217,7 @@ userRouter.post('/authToken', (req, res) => {
     try {
         const accessToken = req.body;
         console.log(`The access token is: ${accessToken}`)
-        res.send(req.user);
+        // res.send(req.user);
     }catch(err) {
         res.status(403).send({message: "Unauthorized user"})
     }
