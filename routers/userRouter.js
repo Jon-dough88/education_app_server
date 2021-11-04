@@ -125,6 +125,8 @@ const findUserByName = async (userName, loginPassword, res) => {
 //     )
 // }
 
+
+
 const passwordCheck = async (user, password, res) => {
 
     
@@ -154,15 +156,15 @@ const passwordCheck = async (user, password, res) => {
 
                 saveRefreshToken(user, refreshToken, res)
                
-                // res.cookie('refreshToken', refreshToken, { httpOnly: true })
-                // res.status(200).send({accessToken: accessToken, 
-                //        userName: user.userName, 
-                //        userType: user.userType})
-
-                return res.status(200)
-                .send({accessToken: accessToken, 
+                res.cookie('refreshToken', refreshToken, { httpOnly: true })
+                res.status(200).send({accessToken: accessToken, 
                        userName: user.userName, 
                        userType: user.userType})
+
+                // return res.status(200)
+                // .send({accessToken: accessToken, 
+                //        userName: user.userName, 
+                //        userType: user.userType})
                 
             }
             return res.status(400).json({message: "Incorrect username or password!"})
@@ -199,7 +201,16 @@ let saveRefreshToken = async (user, refreshToken, res) => {
 }
 
 
+// Getting a refresh token
 
+userRouter.get('/refreshToken', (req, res) => {
+    try{
+        let refreshToken = req.cookies.refreshToken
+        console.log(refreshToken)
+    }catch(err){
+        res.status(404).send({message: "Resource not found."})
+    }
+}) 
 // Fetching user data
 
 // userRouter.get('/user', authenticateToken, (req, res) => {
@@ -216,7 +227,9 @@ let saveRefreshToken = async (user, refreshToken, res) => {
 userRouter.post('/authToken', (req, res) => {
     try {
         const accessToken = req.body;
+        const refreshToken = req.cookies.refreshToken;
         console.log(`The access token is: ${accessToken}`)
+        console.log(`The refresh token is: ${refreshToken}`)
         // res.send(req.user);
     }catch(err) {
         res.status(403).send({message: "Unauthorized user"})
