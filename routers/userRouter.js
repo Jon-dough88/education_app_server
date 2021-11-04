@@ -205,7 +205,7 @@ let saveRefreshToken = async (user, refreshToken, res) => {
 
 userRouter.get('/refreshToken', (req, res) => {
     try{
-        let refreshToken = req.cookies.refreshToken
+        let refreshToken = req.cookies['refreshToken'];
         console.log(refreshToken)
     }catch(err){
         res.status(404).send({message: "Resource not found."})
