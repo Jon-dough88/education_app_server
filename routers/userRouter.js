@@ -45,8 +45,8 @@ userRouter.post('/signup', async (req, res) => {
         // console.log({"The user is a ": userType});
 
         console.log(newUser.userType)
-        res.setHeader('Access-Control-Allow-Origin','*');
-        res.setHeader('Access-Control-Allow-Credentials',true);
+        // res.setHeader('Access-Control-Allow-Origin','*');
+        // res.setHeader('Access-Control-Allow-Credentials',true);
 
         if(newUser.userType === 'teacher') {
             let teacherData = new Teacher(newUser)

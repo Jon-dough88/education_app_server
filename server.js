@@ -25,10 +25,10 @@ app.use(express.json())
 app.use(morgan('tiny'));
 app.use('/api', appRouter)
 
-app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    next();
-});
+// app.use((req, res, next) => {
+//     res.header('Access-Control-Allow-Origin', '*');
+//     next();
+// });
 
 const PORT = 4000 || process.env.PORT;
 
