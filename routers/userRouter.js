@@ -45,8 +45,8 @@ userRouter.post('/signup', async (req, res) => {
         // console.log({"The user is a ": userType});
 
         console.log(newUser.userType)
-        // res.setHeader('Access-Control-Allow-Origin','*');
-        // res.setHeader('Access-Control-Allow-Credentials',true);
+        res.setHeader('Access-Control-Allow-Origin','*');
+        res.setHeader('Access-Control-Allow-Credentials',true);
 
         if(newUser.userType === 'teacher') {
             let teacherData = new Teacher(newUser)
@@ -166,8 +166,10 @@ const passwordCheck = async (user, password, res) => {
                 //        userName: user.userName, 
                 //        userType: user.userType})
                 
+            }else{
+                return res.status(400).json({message: "Incorrect username or password!"})
             }
-            return res.status(400).json({message: "Incorrect username or password!"})
+            
         });
    
     
@@ -203,10 +205,13 @@ let saveRefreshToken = async (user, refreshToken, res) => {
 
 // Getting a refresh token
 
-userRouter.get('/refreshToken', (req, res) => {
+userRouter.post('/refreshToken', (req, res) => {
     try{
+        const userName = req.body;
+        console.log(userName)
         let refreshToken = req.cookies['refreshToken'];
         console.log(refreshToken)
+        
     }catch(err){
         res.status(404).send({message: "Resource not found."})
     }
