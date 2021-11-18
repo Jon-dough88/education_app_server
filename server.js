@@ -13,10 +13,11 @@ const frontendUrl = 'http://localhost:3000';
 const appRouter = require('./routers/appRouter');
 
 const app = express();
-app.use(cors({
-    credentials: true,
-    origin: `${frontendUrl}`
-}));
+// app.use(cors({
+//     credentials: true,
+//     origin: `${frontendUrl}`
+// }));
+app.use(cors());
 app.use(cookieParser());
 app.use(express.urlencoded({
     extended: true
