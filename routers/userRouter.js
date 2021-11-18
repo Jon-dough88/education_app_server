@@ -185,7 +185,7 @@ let saveRefreshToken = async (user, refreshToken, res) => {
                     res.status(400).send({error: err})
                 }else{
                     console.log(`Saved teacher data: ${result}`)
-                    res.status(200).send({message: "Refresh token saved."})
+                    // res.status(200).send({message: "Refresh token saved."})
                 }
             })
         }else if (user.userType === 'student') {
@@ -194,7 +194,7 @@ let saveRefreshToken = async (user, refreshToken, res) => {
                     res.status(400).send({error: err})
                 }else{
                     console.log(`Saved student data: ${result}`)
-                    res.status(200).send({message: "Refresh token saved."})
+                    // res.status(200).send({message: "Refresh token saved."})
                 }
             })
         }
@@ -211,7 +211,7 @@ userRouter.get('/refreshToken', (req, res) => {
     try{
         
         let refreshToken = req.cookies.refreshToken;
-        console.log(refreshToken)
+        console.log(`The refresh token is: ${refreshToken}`)
         
     }catch(err){
         res.status(404).send({message: "Resource not found."})
