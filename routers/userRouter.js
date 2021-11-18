@@ -181,21 +181,32 @@ let saveRefreshToken = async (user, refreshToken, res) => {
         // console.log(`The user at the refresh token function is: ${user}`)
         if(user && user.userType === 'teacher'){
             await Teacher.findByIdAndUpdate({_id: user._id}, {refreshToken: refreshToken}, (err, result) => {
-                if(err){
-                    res.status(400).send({error: err})
-                }else{
+                try{
                     console.log(`Saved teacher data: ${result}`)
-                    // res.status(200).send({message: "Refresh token saved."})
+                }catch(err){
+                    res.status(400).send({error: err})
                 }
+                // if(err){
+                //     res.status(400).send({error: err})
+                // }else{
+                //     console.log(`Saved teacher data: ${result}`)
+                //     // res.status(200).send({message: "Refresh token saved."})
+                // }
             })
         }else if (user.userType === 'student') {
             await Student.findByIdAndUpdate({_id: user._id}, {refreshToken: refreshToken}, (err, result) => {
-                if(err){
+                try{
+                    console.log(`Saved teacher data: ${result}`)
+                }catch(err){
                     res.status(400).send({error: err})
-                }else{
-                    console.log(`Saved student data: ${result}`)
-                    // res.status(200).send({message: "Refresh token saved."})
                 }
+               
+                // if(err){
+                //     res.status(400).send({error: err})
+                // }else{
+                //     console.log(`Saved student data: ${result}`)
+                //     // res.status(200).send({message: "Refresh token saved."})
+                // }
             })
         }
         res.status(404).send({message: "Refresh token invalid"})
