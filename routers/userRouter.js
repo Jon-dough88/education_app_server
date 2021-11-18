@@ -209,10 +209,10 @@ let saveRefreshToken = async (user, refreshToken, res) => {
                 // }
             })
         }
-        res.status(404).send({message: "Refresh token invalid"})
+        // res.status(404).send({message: "Refresh token invalid"})
     }catch (err) {
         // res.status(401).send({error: err})
-        coneole.log(err)
+        console.log(err)
     }
 }
 
