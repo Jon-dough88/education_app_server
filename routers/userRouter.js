@@ -219,16 +219,38 @@ let saveRefreshToken = async (user, refreshToken, res) => {
 
 // Getting a refresh token
 
-userRouter.get('/refreshToken', (req, res) => {
+userRouter.post('/refreshToken', (req, res) => {
     try{
         
+        const userName = req.body;
+        console.log(`Username is: ${userName}`)
+
         let refreshToken = req.cookies.refreshToken;
         console.log(`The refresh token is: ${refreshToken}`)
+
+       userName && 
+       issueNewToken(userName, refreshToken)
         
     }catch(err){
         res.status(404).send({message: "Resource not found."})
     }
 }) 
+
+
+let issueNewToken = async ( userName, refreshToken) => {
+    try {
+        await Teacher.find({userName}).then((userData) => {
+            const [user] = userData
+            if(user.userType === 'teacher'){
+                console.log('Teacher found!')
+            }else if(user.userType==='student'){
+                console.log('Student detected!')
+            }
+        })
+    }catch(err){
+        console.log(err)
+    }
+}
 // Fetching user data
 
 // userRouter.get('/user', authenticateToken, (req, res) => {
