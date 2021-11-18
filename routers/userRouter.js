@@ -184,7 +184,7 @@ let saveRefreshToken = async (user, refreshToken, res) => {
                 if(err){
                     res.status(400).send({error: err})
                 }else{
-                    console.log(result)
+                    console.log(`Saved teacher data: ${result}`)
                     res.status(200).send({message: "Refresh token saved."})
                 }
             })
@@ -193,7 +193,8 @@ let saveRefreshToken = async (user, refreshToken, res) => {
                 if(err){
                     res.status(400).send({error: err})
                 }else{
-                    res.status(200).send(result)
+                    console.log(`Saved student data: ${result}`)
+                    res.status(200).send({message: "Refresh token saved."})
                 }
             })
         }
