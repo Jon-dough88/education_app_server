@@ -13,11 +13,11 @@ const frontendUrl = 'http://localhost:3000';
 const appRouter = require('./routers/appRouter');
 
 const app = express();
-// app.use(cors({
-//     credentials: true,
-//     origin: `${frontendUrl}`
-// }));
-app.use(cors());
+app.use(cors({
+    credentials: true,
+    origin: `${frontendUrl}`
+}));
+// app.use(cors());
 app.use(cookieParser());
 app.use(express.urlencoded({
     extended: true
@@ -33,9 +33,6 @@ app.use('/api', appRouter)
 
 const PORT = 4000 || process.env.PORT;
 
-// app.get((req, res) => {
-//     res.send('<h1>SO IT BEGINS</h1>')
-// })
 
 mongoose.connect(process.env.CONNECTION_URL, {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false})
     .then(()=>{
