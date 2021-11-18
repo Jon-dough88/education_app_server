@@ -184,7 +184,8 @@ let saveRefreshToken = async (user, refreshToken, res) => {
                 if(err){
                     res.status(400).send({error: err})
                 }else{
-                    res.status(200).send(result)
+                    console.log(result)
+                    res.status(200).send({message: "Refresh token saved."})
                 }
             })
         }else if (user.userType === 'student') {
@@ -205,11 +206,10 @@ let saveRefreshToken = async (user, refreshToken, res) => {
 
 // Getting a refresh token
 
-userRouter.post('/refreshToken', (req, res) => {
+userRouter.get('/refreshToken', (req, res) => {
     try{
-        const userName = req.body;
-        console.log(userName)
-        let refreshToken = req.cookies['refreshToken'];
+        
+        let refreshToken = req.cookies.refreshToken;
         console.log(refreshToken)
         
     }catch(err){
@@ -229,17 +229,17 @@ userRouter.post('/refreshToken', (req, res) => {
 
 
 // userRouter.post('/authToken', authenticateToken, (req, res) => {
-userRouter.post('/authToken', (req, res) => {
-    try {
-        const accessToken = req.body;
-        const refreshToken = req.cookies.refreshToken;
-        console.log(`The access token is: ${accessToken}`)
-        console.log(`The refresh token is: ${refreshToken}`)
-        // res.send(req.user);
-    }catch(err) {
-        res.status(403).send({message: "Unauthorized user"})
-    }
-})
+// userRouter.post('/authToken', (req, res) => {
+//     try {
+//         const accessToken = req.body;
+//         const refreshToken = req.cookies.refreshToken;
+//         console.log(`The access token is: ${accessToken}`)
+//         console.log(`The refresh token is: ${refreshToken}`)
+//         // res.send(req.user);
+//     }catch(err) {
+//         res.status(403).send({message: "Unauthorized user"})
+//     }
+// })
 
 
 // Editing an existing user
