@@ -219,7 +219,7 @@ let saveRefreshToken = async (user, refreshToken, res) => {
 
 // Getting a refresh token
 
-userRouter.post('/refreshToken', (req, res) => {
+userRouter.post('/refreshToken', async (req, res) => {
     try{
         
         const userName = req.body;
@@ -228,8 +228,19 @@ userRouter.post('/refreshToken', (req, res) => {
         let refreshToken = req.cookies.refreshToken;
         console.log(`The refresh token is: ${refreshToken}`)
 
-       userName && 
-       issueNewToken(userName, refreshToken)
+    //    issueNewToken(userName, refreshToken)
+
+         await Teacher.find(userName).then((userData) => {
+            const [user] = userData;
+            console.log(`The user is: ${user}`);
+            console.log(`The user's id is: ${user._id}`);
+
+            if(user.userType === 'teacher' || 'admin'){
+                console.log('Teacher found!')
+            }else if(user.userType === 'student'){
+                console.log('Student detected!')
+            }
+        })
         
     }catch(err){
         res.status(404).send({message: "Resource not found."})
@@ -237,20 +248,23 @@ userRouter.post('/refreshToken', (req, res) => {
 }) 
 
 
-let issueNewToken = async ( userName, refreshToken) => {
-    try {
-        await Teacher.find({userName}).then((userData) => {
-            const [user] = userData
-            if(user.userType === 'teacher'){
-                console.log('Teacher found!')
-            }else if(user.userType==='student'){
-                console.log('Student detected!')
-            }
-        })
-    }catch(err){
-        console.log(err)
-    }
-}
+// let issueNewToken = async ( userName, refreshToken) => {
+
+//     try {
+//         await Teacher.findOne({userName}).then((userData) => {
+//             const [user] = userData
+//             console.log(`User: ${user}`)
+
+//             if(user.userType === 'teacher'){
+//                 console.log('Teacher found!')
+//             }else if(user.userType==='student'){
+//                 console.log('Student detected!')
+//             }
+//         })
+//     }catch(err){
+//         console.log(err)
+//     }
+// }
 // Fetching user data
 
 // userRouter.get('/user', authenticateToken, (req, res) => {
