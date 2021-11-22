@@ -144,7 +144,7 @@ const passwordCheck = async (user, password, res) => {
                     {
                         expiresIn: "5min"
                     }    
-                )
+                );
 
                 const refreshToken = jwt.sign({
                     type: "refresh", 
@@ -228,19 +228,19 @@ userRouter.post('/refreshToken', async (req, res) => {
         let refreshToken = req.cookies.refreshToken;
         console.log(`The refresh token is: ${refreshToken}`)
 
-    //    issueNewToken(userName, refreshToken)
+    issueNewToken(refreshToken, res)
 
-         await Teacher.find({refreshToken: refreshToken}).then((userData) => {
-            const [user] = userData;
-            console.log(`The user is: ${user}`);
-            console.log(`The user's id is: ${user._id}`);
+        //  await Teacher.find({refreshToken: refreshToken}).then((userData) => {
+        //     const [user] = userData;
+        //     console.log(`The user is: ${user}`);
+        //     console.log(`The user's id is: ${user._id}`);
 
-            if(user.userType === 'teacher' || 'admin'){
-                console.log('Teacher found!')
-            }else if(user.userType === 'student'){
-                console.log('Student detected!')
-            }
-        })
+        //     if(user.userType === 'teacher' || 'admin'){
+        //         console.log('Teacher found!')
+        //     }else if(user.userType === 'student'){
+        //         console.log('Student detected!')
+        //     }
+        // })
         
     }catch(err){
         res.status(404).send({message: "Resource not found."})
@@ -248,23 +248,44 @@ userRouter.post('/refreshToken', async (req, res) => {
 }) 
 
 
-// let issueNewToken = async ( userName, refreshToken) => {
+let issueNewToken = async (refreshToken, res) => {
 
-//     try {
-//         await Teacher.findOne({userName}).then((userData) => {
-//             const [user] = userData
-//             console.log(`User: ${user}`)
+    try {
+        await Teacher.find({refreshToken: refreshToken}).then((userData) => {
+            const [user] = userData;
+            console.log(`The user is: ${user}`);
+            console.log(`The user's id is: ${user._id}`);
 
-//             if(user.userType === 'teacher'){
-//                 console.log('Teacher found!')
-//             }else if(user.userType==='student'){
-//                 console.log('Student detected!')
-//             }
-//         })
-//     }catch(err){
-//         console.log(err)
-//     }
-// }
+            if(user.userType === 'teacher' || 'admin'){
+                console.log('Teacher found!')
+                let newAccessToken = jwt.sign({
+                    id: user._id,
+                    userName: user.userName,
+                    userType: user.userType
+                }, 
+                    process.env.ACCESS_TOKEN_SECRET,
+                    {
+                        expiresIn: "5min"
+                    }    
+                )
+
+                let newRefreshToken = jwt.sign({type: "refresh"}, process.env.REFRESH_TOKEN_SECRET, {expiresIn: "5min"})
+                
+                saveRefreshToken(user, newRefreshToken, res)
+                
+                res.cookie('refreshToken', newRefreshToken, {httpOnly: true});
+                res.status(200).send({accessToken: newAccessToken, userName: user.userName, userType: user.userType}  )
+            }else if(user.userType === 'student'){
+                console.log('Student detected!')
+            }
+        })
+    }catch(err){
+        console.log(err)
+    }
+}
+
+
+
 // Fetching user data
 
 // userRouter.get('/user', authenticateToken, (req, res) => {
