@@ -222,15 +222,15 @@ let saveRefreshToken = async (user, refreshToken, res) => {
 userRouter.post('/refreshToken', async (req, res) => {
     try{
         
-        const userName = req.body;
-        console.log(`Username is: ${userName}`)
+        // const userName = req.body;
+        // console.log(`Username is: ${userName}`)
 
         let refreshToken = req.cookies.refreshToken;
         console.log(`The refresh token is: ${refreshToken}`)
 
     //    issueNewToken(userName, refreshToken)
 
-         await Teacher.find(userName).then((userData) => {
+         await Teacher.find(refreshToken).then((userData) => {
             const [user] = userData;
             console.log(`The user is: ${user}`);
             console.log(`The user's id is: ${user._id}`);
