@@ -83,18 +83,18 @@ userRouter.post('/login', async (req, res) => {
 })
 
 const findUserByName = async (userName, loginPassword, res) => {
-    // try{
+    try{
         await Teacher.find({userName}).then((userData) => {
             
             const [user] = userData;
-            console.log(user)
+            console.log({"The user's data: ": user })
 
             if (user.userType === 'teacher' || 'admin'){
                 console.log(`User ${userName} is a teacher!`)
                 passwordCheck(user, loginPassword, res) 
 
             }else if(user.userType === 'student'){
-                 Student.find(user.userName).then((user) => {
+                  Student.find(user.userName).then((user) => {
                     if(user && user.userType === 'student') {
                         console.log(`User ${userName} is a student!`)
                         passwordCheck(user, password, res)  
@@ -106,12 +106,12 @@ const findUserByName = async (userName, loginPassword, res) => {
             }
         })
         .catch(error => {
-            console.log(error)
+            console.log({"Error": error})
             return res(400).json({message: "Bad username or password"})
         })
-    // }catch(error){
-    //     console.log(error)
-    // }
+    }catch(error){
+        console.log(error)
+    }
 }
 
 // let createAccessToken = (user) => {
