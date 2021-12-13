@@ -102,19 +102,24 @@ const findUserByName = async (userName, loginPassword, res) => {
             //     })
             // }
             }else {
-                return res.status(400).json({message: "Username or password failed"})
+                Student.find(user.userName).then((user) => {
+                    if(user && user.userType === 'student') {
+                        console.log(`User ${userName} is a student!`)
+                        passwordCheck(user, password, res)  
+                    }
+                })
             }
         })
         .catch(error => {
             console.log(error)
-            if(user && user.userType === 'student'){
-                Student.find(user.userName).then((user) => {
-                   if(user && user.userType === 'student') {
-                       console.log(`User ${userName} is a student!`)
-                       passwordCheck(user, password, res)  
-                   }
-               })
-           }
+        //     if(user && user.userType === 'student'){
+        //         Student.find(user.userName).then((user) => {
+        //            if(user && user.userType === 'student') {
+        //                console.log(`User ${userName} is a student!`)
+        //                passwordCheck(user, password, res)  
+        //            }
+        //        })
+        //    }
             return res(400).json({message: "Bad username or password"})
         })
     // }catch(error){
