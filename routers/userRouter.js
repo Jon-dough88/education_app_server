@@ -245,9 +245,27 @@ userRouter.post('/refreshToken', async (req, res) => {
 
 let issueNewToken = async (refreshToken, res) => {
 
+
+    // await Teacher.find({userName})
+    // .then((teacherData) => {
+    //     const [teacher] = teacherData
+    //     // console.log({"Teacher data": teacher})
+    //     console.log(`User ${userName} is a student!`)
+    //     passwordCheck(teacher, loginPassword, res) 
+
+    //     if(teacherData === null || 'undefined'){
+    //         Student.find({userName}).then((studentData) => {
+    //              const [student] = studentData;
+    //             //  console.log({"Student data": student})
+    //              console.log(`User ${userName} is a student!`)
+    //               passwordCheck(student, loginPassword, res) 
+    //         })
+    //     }
+    // })
+
     try {
-        await Teacher.find({refreshToken: refreshToken}).then((userData) => {
-            const [user] = userData;
+        await Teacher.find({refreshToken: refreshToken}).then((teacherData) => {
+            const [teacher] = teacherData;
             console.log(`The user is: ${user}`);
             console.log(`The user's id is: ${user._id}`);
 
