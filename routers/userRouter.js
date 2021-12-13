@@ -13,6 +13,7 @@ const authenticateToken  = require('../authentication/authenticateToken');
 
 // A function for creating random strings
 const randomString = require('../utils/string');
+const studentSchema = require('../models/studentSchema');
 
 
 
@@ -248,16 +249,16 @@ let issueNewToken = async (refreshToken, res) => {
 
     try {
         await Teacher.find({refreshToken: refreshToken}).then((userData) => {
-            const [user] = userData;
+            const [teacher] = userData;
             console.log(`The user is: ${userData}`);
-            console.log(`The user's id is: ${user._id}`);
+            console.log(`The user's id is: ${teacher._id}`);
 
             // if(user.userType === 'teacher' || 'admin'){
                 console.log('Teacher found!')
                 let newAccessToken = jwt.sign({
-                    id: user._id,
-                    userName: user.userName,
-                    userType: user.userType
+                    id: teacher._id,
+                    userName: teacher.userName,
+                    userType: teacher.userType
                 }, 
                     process.env.ACCESS_TOKEN_SECRET,
                     {
@@ -267,12 +268,12 @@ let issueNewToken = async (refreshToken, res) => {
 
                 let newRefreshToken = jwt.sign({type: "refresh"}, process.env.REFRESH_TOKEN_SECRET, {expiresIn: "5min"})
                 
-                saveRefreshToken(user, newRefreshToken, res)
+                saveRefreshToken(teacher, newRefreshToken, res)
                 
                 res.cookie('refreshToken', newRefreshToken, {httpOnly: true});
-                res.status(200).send({accessToken: newAccessToken, userName: user.userName, userType: user.userType}  )
+                res.status(200).send({accessToken: newAccessToken, userName: teacher.userName, userType: teacher.userType}  )
             
-            if(userData === null || 'undefined'){
+            if(teacher === null || 'undefined'){
                 Student.find({refreshToken: refreshToken}).then((userData) => {
                     const [student] = userData;
                     let newAccessToken = jwt.sign({
@@ -290,7 +291,7 @@ let issueNewToken = async (refreshToken, res) => {
                     
                     saveRefreshToken(student, newRefreshToken, res)
                     res.cookie('refreshToken', newRefreshToken, {httpOnly: true});
-                    res.status(200).send({accessToken: newAccessToken, userName: user.userName, userType: user.userType}  )
+                    res.status(200).send({accessToken: newAccessToken, userName: student.userName, userType: studentSchema.userType}  )
                 })
 
             }
