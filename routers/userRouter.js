@@ -93,19 +93,28 @@ const findUserByName = async (userName, loginPassword, res) => {
                 console.log(`User ${userName} is a teacher!`)
                 passwordCheck(user, loginPassword, res) 
 
-            }else if(user && user.userType === 'student'){
-                 Student.find(user.userName).then((user) => {
-                    if(user && user.userType === 'student') {
-                        console.log(`User ${userName} is a student!`)
-                        passwordCheck(user, password, res)  
-                    }
-                })
-            }else{
+            // }else if(user && user.userType === 'student'){
+            //      Student.find(user.userName).then((user) => {
+            //         if(user && user.userType === 'student') {
+            //             console.log(`User ${userName} is a student!`)
+            //             passwordCheck(user, password, res)  
+            //         }
+            //     })
+            // }
+            }else {
                 return res.status(400).json({message: "Username or password failed"})
             }
         })
         .catch(error => {
             console.log(error)
+            if(user && user.userType === 'student'){
+                Student.find(user.userName).then((user) => {
+                   if(user && user.userType === 'student') {
+                       console.log(`User ${userName} is a student!`)
+                       passwordCheck(user, password, res)  
+                   }
+               })
+           }
             return res(400).json({message: "Bad username or password"})
         })
     }catch(error){
