@@ -88,14 +88,14 @@ const findUserByName = async (userName, loginPassword, res) => {
         .then((teacherData) => {
             const [teacher] = teacherData
             // console.log({"Teacher data": teacher})
-            console.log(`User ${teacher.userName} is a student!`)
+            console.log(`User ${userName} is a student!`)
             passwordCheck(teacher, loginPassword, res) 
 
             if(teacherData === null || 'undefined'){
                 Student.find({userName}).then((studentData) => {
                      const [student] = studentData;
                     //  console.log({"Student data": student})
-                     console.log(`User ${student.userName} is a student!`)
+                     console.log(`User ${userName} is a student!`)
                       passwordCheck(student, loginPassword, res) 
                 })
             }
@@ -104,47 +104,7 @@ const findUserByName = async (userName, loginPassword, res) => {
         console.log(error)
         return res(400).json({message: "Bad username or password"})
     }
-    
-        // .catch(error => {
-        //     console.log({"Error": error});
-        //     Student.find({userName}).then((studentData) => {
-        //         const [student] = studentData;
-        //         console.log({"Student data": student})
-        //     })
-        // })
-
-
-    // try{
-    //     await Teacher.find({userName}).then((userData) => {
-            
-    //         const [user] = userData;
-    //         console.log({"The user's data: ": user })
-
-    //         if (user && user.userType === 'teacher' || 'admin'){
-    //             console.log(`User ${userName} is a teacher!`)
-    //             passwordCheck(user, loginPassword, res) 
-
-    //         }
-    //          else if(user.userType === 'student'){
-    //              Student.find(user.userName).then((user) => {
-    //                  if(user && user.userType === 'student') {
-    //                      console.log(`User ${userName} is a student!`)
-    //                      passwordCheck(user, password, res)  
-    //                  }
-    //              })
-            
-    //         }
-    //         else {
-    //             return res.status(400).json({message: "Username or password failed"})
-    //         }
-    //     })
-    //     .catch(error => {
-    //         console.log({"Error": error})
-    //         return res(400).json({message: "Bad username or password"})
-    //     })
-    // }catch(error){
-    //     console.log(error)
-    // }
+   
 }
 
 // let createAccessToken = (user) => {
