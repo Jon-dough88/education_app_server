@@ -83,35 +83,52 @@ userRouter.post('/login', async (req, res) => {
 })
 
 const findUserByName = async (userName, loginPassword, res) => {
-    try{
-        await Teacher.find({userName}).then((userData) => {
-            
-            const [user] = userData;
-            console.log({"The user's data: ": user })
-
-            if (user.userType === 'teacher' || 'admin'){
-                console.log(`User ${userName} is a teacher!`)
-                passwordCheck(user, loginPassword, res) 
-
-            }else if(user.userType === 'student'){
-                  Student.find(user.userName).then((user) => {
-                    if(user && user.userType === 'student') {
-                        console.log(`User ${userName} is a student!`)
-                        passwordCheck(user, password, res)  
-                    }
-                })
-            
-            }else {
-                return res.status(400).json({message: "Username or password failed"})
-            }
+    
+    await Teacher.find({userName})
+        .then((teacherData) => {
+            const [teacher] = teacherData
+            console.log({"Teacher data": teacher})
         })
         .catch(error => {
-            console.log({"Error": error})
-            return res(400).json({message: "Bad username or password"})
+            console.log(error);
+            Student.find({userName}).then((studentData) => {
+                const [student] = studentData;
+                console.log({"Student data": student})
+            })
         })
-    }catch(error){
-        console.log(error)
-    }
+
+
+    // try{
+    //     await Teacher.find({userName}).then((userData) => {
+            
+    //         const [user] = userData;
+    //         console.log({"The user's data: ": user })
+
+    //         if (user && user.userType === 'teacher' || 'admin'){
+    //             console.log(`User ${userName} is a teacher!`)
+    //             passwordCheck(user, loginPassword, res) 
+
+    //         }
+    //          else if(user.userType === 'student'){
+    //              Student.find(user.userName).then((user) => {
+    //                  if(user && user.userType === 'student') {
+    //                      console.log(`User ${userName} is a student!`)
+    //                      passwordCheck(user, password, res)  
+    //                  }
+    //              })
+            
+    //         }
+    //         else {
+    //             return res.status(400).json({message: "Username or password failed"})
+    //         }
+    //     })
+    //     .catch(error => {
+    //         console.log({"Error": error})
+    //         return res(400).json({message: "Bad username or password"})
+    //     })
+    // }catch(error){
+    //     console.log(error)
+    // }
 }
 
 // let createAccessToken = (user) => {
