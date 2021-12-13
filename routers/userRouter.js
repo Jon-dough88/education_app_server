@@ -145,7 +145,7 @@ const passwordCheck = async (user, password, res) => {
                     type: "refresh", 
                 }, process.env.REFRESH_TOKEN_SECRET,
                     {
-                        expiresIn: "2hrs"
+                        expiresIn: "15min"
                     }
                 )
 
@@ -246,30 +246,13 @@ userRouter.post('/refreshToken', async (req, res) => {
 let issueNewToken = async (refreshToken, res) => {
 
 
-    // await Teacher.find({userName})
-    // .then((teacherData) => {
-    //     const [teacher] = teacherData
-    //     // console.log({"Teacher data": teacher})
-    //     console.log(`User ${userName} is a student!`)
-    //     passwordCheck(teacher, loginPassword, res) 
-
-    //     if(teacherData === null || 'undefined'){
-    //         Student.find({userName}).then((studentData) => {
-    //              const [student] = studentData;
-    //             //  console.log({"Student data": student})
-    //              console.log(`User ${userName} is a student!`)
-    //               passwordCheck(student, loginPassword, res) 
-    //         })
-    //     }
-    // })
-
     try {
-        await Teacher.find({refreshToken: refreshToken}).then((teacherData) => {
-            const [teacher] = teacherData;
-            console.log(`The user is: ${user}`);
+        await Teacher.find({refreshToken: refreshToken}).then((userData) => {
+            const [user] = userData;
+            console.log(`The user is: ${userData}`);
             console.log(`The user's id is: ${user._id}`);
 
-            if(user.userType === 'teacher' || 'admin'){
+            // if(user.userType === 'teacher' || 'admin'){
                 console.log('Teacher found!')
                 let newAccessToken = jwt.sign({
                     id: user._id,
@@ -288,14 +271,36 @@ let issueNewToken = async (refreshToken, res) => {
                 
                 res.cookie('refreshToken', newRefreshToken, {httpOnly: true});
                 res.status(200).send({accessToken: newAccessToken, userName: user.userName, userType: user.userType}  )
-            }else if(user.userType === 'student'){
-                console.log('Student detected!')
+            
+            if(teacherData === null || 'undefined'){
+                Student.find({refreshToken: refreshToken}).then((userData) => {
+                    const [student] = userData;
+                    let newAccessToken = jwt.sign({
+                        id: student._id,
+                        userName: student.userName,
+                        userType: student.userType
+                    }, 
+                        process.env.ACCESS_TOKEN_SECRET,
+                        {
+                            expiresIn: "5min"
+                        }    
+                    )
+    
+                    let newRefreshToken = jwt.sign({type: "refresh"}, process.env.REFRESH_TOKEN_SECRET, {expiresIn: "5min"})
+                    
+                    saveRefreshToken(student, newRefreshToken, res)
+                    res.cookie('refreshToken', newRefreshToken, {httpOnly: true});
+                    res.status(200).send({accessToken: newAccessToken, userName: user.userName, userType: user.userType}  )
+                })
+
             }
         })
     }catch(err){
         console.log(err)
     }
 }
+
+
 
 
 
