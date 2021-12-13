@@ -94,7 +94,7 @@ const findUserByName = async (userName, loginPassword, res) => {
                 passwordCheck(user, loginPassword, res) 
 
             }else if(user && user.userType === 'student'){
-                await Student.find(user.userName).then((user) => {
+                 Student.find(user.userName).then((user) => {
                     if(user && user.userType === 'student') {
                         console.log(`User ${userName} is a student!`)
                         passwordCheck(user, password, res)  
