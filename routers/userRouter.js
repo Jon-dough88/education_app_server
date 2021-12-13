@@ -89,19 +89,20 @@ const findUserByName = async (userName, loginPassword, res) => {
             const [teacher] = teacherData
             // console.log({"Teacher data": teacher})
             console.log(`User ${teacher.userName} is a student!`)
-            passwordCheck(teacher, password, res) 
+            passwordCheck(teacher, loginPassword, res) 
 
             if(teacherData === null || 'undefined'){
                 Student.find({userName}).then((studentData) => {
                      const [student] = studentData;
                     //  console.log({"Student data": student})
                      console.log(`User ${student.userName} is a student!`)
-                      passwordCheck(student, password, res) 
+                      passwordCheck(student, loginPassword, res) 
                 })
             }
         })
     }catch(error){
         console.log(error)
+        return res(400).json({message: "Bad username or password"})
     }
     
         // .catch(error => {
