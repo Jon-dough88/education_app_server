@@ -72,7 +72,7 @@ userRouter.post('/signup', async (req, res) => {
 userRouter.post('/login', async (req, res) => {
     try {
         const loginValues = req.body;
-        console.log(`The user signing up is called ${loginValues.userName}`)
+        // console.log(`The user signing up is called ${loginValues.userName}`)
 
         findUserByName(loginValues.userName, loginValues.password, res)
         
@@ -83,19 +83,29 @@ userRouter.post('/login', async (req, res) => {
 })
 
 const findUserByName = async (userName, loginPassword, res) => {
-    
-    await Teacher.find({userName})
+    try{
+        await Teacher.find({userName})
         .then((teacherData) => {
             const [teacher] = teacherData
             console.log({"Teacher data": teacher})
+            if(teacherData === null || 'undefined'){
+                Student.find({userName}).then((studentData) => {
+                     const [student] = studentData;
+                     console.log({"Student data": student})
+                })
+            }
         })
-        .catch(error => {
-            console.log(error);
-            Student.find({userName}).then((studentData) => {
-                const [student] = studentData;
-                console.log({"Student data": student})
-            })
-        })
+    }catch(error){
+        console.log(error)
+    }
+    
+        // .catch(error => {
+        //     console.log({"Error": error});
+        //     Student.find({userName}).then((studentData) => {
+        //         const [student] = studentData;
+        //         console.log({"Student data": student})
+        //     })
+        // })
 
 
     // try{
