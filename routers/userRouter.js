@@ -174,7 +174,7 @@ const passwordCheck = async (user, password, res) => {
 let saveRefreshToken = async (user, refreshToken, res) => {
     try{
         
-        // console.log(`The user at the refresh token function is: ${user}`)
+        console.log(`The user at the refresh token function is: ${user}`)
         if(user && user.userType === 'teacher'){
             await Teacher.findByIdAndUpdate({_id: user._id}, {refreshToken: refreshToken}, (err, result) => {
                 try{
@@ -251,7 +251,7 @@ let issueNewToken = async (refreshToken, res) => {
         await Teacher.find({refreshToken: refreshToken}).then((userData) => {
             const [teacher] = userData;
             console.log(`The user is: ${userData}`);
-            console.log(`The user's id is: ${teacher._id}`);
+            // console.log(`The user's id is: ${teacher._id}`);
 
             // if(user.userType === 'teacher' || 'admin'){
                 console.log('Teacher found!')
@@ -268,7 +268,7 @@ let issueNewToken = async (refreshToken, res) => {
 
                 let newRefreshToken = jwt.sign({type: "refresh"}, process.env.REFRESH_TOKEN_SECRET, {expiresIn: "5min"})
                 
-                saveRefreshToken(teacher, newRefreshToken, res)
+                // saveRefreshToken(teacher, newRefreshToken, res)
                 
                 res.cookie('refreshToken', newRefreshToken, {httpOnly: true});
                 res.status(200).send({accessToken: newAccessToken, userName: teacher.userName, userType: teacher.userType}  )
@@ -289,7 +289,7 @@ let issueNewToken = async (refreshToken, res) => {
     
                     let newRefreshToken = jwt.sign({type: "refresh"}, process.env.REFRESH_TOKEN_SECRET, {expiresIn: "5min"})
                     
-                    saveRefreshToken(student, newRefreshToken, res)
+                    // saveRefreshToken(student, newRefreshToken, res)
                     res.cookie('refreshToken', newRefreshToken, {httpOnly: true});
                     res.status(200).send({accessToken: newAccessToken, userName: student.userName, userType: studentSchema.userType}  )
                 })
