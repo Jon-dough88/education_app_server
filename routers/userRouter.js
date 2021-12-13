@@ -177,11 +177,16 @@ let saveRefreshToken = async (user, refreshToken, res) => {
         console.log(`The user at the refresh token function is: ${user}`)
         // if(user && user.userType === 'teacher'){
             await Teacher.findByIdAndUpdate({_id: user._id}, {refreshToken: refreshToken}, (err, result) => {
-                try{
+               if(result){
                     console.log(`Saved teacher data: ${result}`)
-                }catch(err){
-                    res.status(400).send({error: err})
-                }
+                    if(result === null || 'undefined'){
+                        Student.findByIdAndUpdate({_id: user._id}, {refreshToken: refreshToken}, (err, result) => {
+                            console.log(`Saved student data: ${result}`) 
+                        })   
+                    }
+               }else if(err){
+                  console.log(`saveRefreshTokenError: ${err}`)
+               }
                 // if(err){
                 //     res.status(400).send({error: err})
                 // }else{
@@ -250,7 +255,7 @@ let issueNewToken = async (refreshToken, res) => {
     try {
         await Teacher.find({refreshToken: refreshToken}).then((userData) => {
             const [teacher] = userData;
-            console.log(`The user is: ${userData}`);
+            console.log(`The user is: ${teacher}`);
             // console.log(`The user's id is: ${teacher._id}`);
 
             // if(user.userType === 'teacher' || 'admin'){
@@ -273,9 +278,9 @@ let issueNewToken = async (refreshToken, res) => {
                 res.cookie('refreshToken', newRefreshToken, {httpOnly: true});
                 res.status(200).send({accessToken: newAccessToken, userName: teacher.userName, userType: teacher.userType}  )
             
-            if(teacher === null || 'undefined'){
-                Student.find({refreshToken: refreshToken}).then((userData) => {
-                    const [student] = userData;
+            if(userData === null || 'undefined'){
+                Student.find({refreshToken: refreshToken}).then((studentData) => {
+                    const [student] = studentData;
                     let newAccessToken = jwt.sign({
                         id: student._id,
                         userName: student.userName,
