@@ -175,7 +175,7 @@ let saveRefreshToken = async (user, refreshToken, res) => {
     try{
         
         console.log(`The user at the refresh token function is: ${user}`)
-        if(user && user.userType === 'teacher'){
+        // if(user && user.userType === 'teacher'){
             await Teacher.findByIdAndUpdate({_id: user._id}, {refreshToken: refreshToken}, (err, result) => {
                 try{
                     console.log(`Saved teacher data: ${result}`)
@@ -189,22 +189,22 @@ let saveRefreshToken = async (user, refreshToken, res) => {
                 //     // res.status(200).send({message: "Refresh token saved."})
                 // }
             })
-        }else if (user.userType === 'student') {
-            await Student.findByIdAndUpdate({_id: user._id}, {refreshToken: refreshToken}, (err, result) => {
-                try{
-                    console.log(`Saved teacher data: ${result}`)
-                }catch(err){
-                    res.status(400).send({error: err})
-                }
+        // }else if (user.userType === 'student') {
+        //     await Student.findByIdAndUpdate({_id: user._id}, {refreshToken: refreshToken}, (err, result) => {
+        //         try{
+        //             console.log(`Saved teacher data: ${result}`)
+        //         }catch(err){
+        //             res.status(400).send({error: err})
+        //         }
                
-                // if(err){
-                //     res.status(400).send({error: err})
-                // }else{
-                //     console.log(`Saved student data: ${result}`)
-                //     // res.status(200).send({message: "Refresh token saved."})
-                // }
-            })
-        }
+        //         // if(err){
+        //         //     res.status(400).send({error: err})
+        //         // }else{
+        //         //     console.log(`Saved student data: ${result}`)
+        //         //     // res.status(200).send({message: "Refresh token saved."})
+        //         // }
+        //     })
+        // }
         // res.status(404).send({message: "Refresh token invalid"})
     }catch (err) {
         // res.status(401).send({error: err})
@@ -268,7 +268,7 @@ let issueNewToken = async (refreshToken, res) => {
 
                 let newRefreshToken = jwt.sign({type: "refresh"}, process.env.REFRESH_TOKEN_SECRET, {expiresIn: "5min"})
                 
-                // saveRefreshToken(teacher, newRefreshToken, res)
+                saveRefreshToken(teacher, newRefreshToken, res)
                 
                 res.cookie('refreshToken', newRefreshToken, {httpOnly: true});
                 res.status(200).send({accessToken: newAccessToken, userName: teacher.userName, userType: teacher.userType}  )
@@ -289,7 +289,7 @@ let issueNewToken = async (refreshToken, res) => {
     
                     let newRefreshToken = jwt.sign({type: "refresh"}, process.env.REFRESH_TOKEN_SECRET, {expiresIn: "5min"})
                     
-                    // saveRefreshToken(student, newRefreshToken, res)
+                    saveRefreshToken(student, newRefreshToken, res)
                     res.cookie('refreshToken', newRefreshToken, {httpOnly: true});
                     res.status(200).send({accessToken: newAccessToken, userName: student.userName, userType: studentSchema.userType}  )
                 })
