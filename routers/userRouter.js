@@ -272,7 +272,7 @@ let issueNewToken = async (refreshToken, res) => {
                 res.cookie('refreshToken', newRefreshToken, {httpOnly: true});
                 res.status(200).send({accessToken: newAccessToken, userName: user.userName, userType: user.userType}  )
             
-            if(teacherData === null || 'undefined'){
+            if(userData === null || 'undefined'){
                 Student.find({refreshToken: refreshToken}).then((userData) => {
                     const [student] = userData;
                     let newAccessToken = jwt.sign({
