@@ -72,7 +72,7 @@ userRouter.post('/signup', async (req, res) => {
 userRouter.post('/login', async (req, res) => {
     try {
         const loginValues = req.body;
-        console.log(loginValues.userName)
+        console.log(`The user signing up is called ${loginValues.userName}`)
 
         findUserByName(loginValues.userName, loginValues.password, res)
         
@@ -83,7 +83,7 @@ userRouter.post('/login', async (req, res) => {
 })
 
 const findUserByName = async (userName, loginPassword, res) => {
-    try{
+    // try{
         await Teacher.find({userName}).then((userData) => {
             
             const [user] = userData;
@@ -117,9 +117,9 @@ const findUserByName = async (userName, loginPassword, res) => {
            }
             return res(400).json({message: "Bad username or password"})
         })
-    }catch(error){
-        console.log(error)
-    }
+    // }catch(error){
+    //     console.log(error)
+    // }
 }
 
 // let createAccessToken = (user) => {
