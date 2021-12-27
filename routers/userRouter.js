@@ -251,7 +251,6 @@ userRouter.post('/refreshToken', async (req, res) => {
 
 let issueNewToken = async (refreshToken, res) => {
 
-
     try {
         await Teacher.find({refreshToken: refreshToken}).then((userData) => {
             const [teacher] = userData;
