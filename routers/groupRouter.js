@@ -9,12 +9,14 @@ const Teacher = require('../models/teacherSchema');
 groupRouter.post('/fetch', async(req, res) => {
     try{
         const userName = req.body;
-        console.log(`Username: ${userName}`)
+        const [teacherUsername] = userName
+        console.log(`Username: ${teacherUsername}`)
+
         await Teacher.findOne({
-            userName
+            userName: teacherUsername
         }, {groups: 1, _id: 1}).then(result => {
             console.log(result)
-            res.status(200).json({result, "message": `${userName}'s groups fetched`})
+            res.status(200).json({result, "message": `${teacherUsername}'s groups fetched`})
         }).catch(err => {
             console.log(err);
             res.status(404).send({err, "message": "No groups found"})
