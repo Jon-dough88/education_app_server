@@ -153,7 +153,8 @@ const passwordCheck = async (user, password, res) => {
                 saveRefreshToken(user, refreshToken, res)
                
                 res.cookie('refreshToken', refreshToken, { httpOnly: true })
-                res.status(200).send({accessToken: accessToken, 
+                res.status(200).send({accessToken: accessToken,
+                       _id: user._id, 
                        userName: user.userName, 
                        userType: user.userType})
 
