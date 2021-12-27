@@ -13,7 +13,7 @@ groupRouter.post('/fetch', async(req, res) => {
         console.log(`Username: ${userName}`)
 
         await Teacher.findOne({
-            userName: teacherUsername
+            userName: userName
         }, {groups: 1, _id: 1}).then(result => {
             console.log(result)
             res.status(200).json({result, "message": `${userName}'s groups fetched`})
