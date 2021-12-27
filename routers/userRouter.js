@@ -154,7 +154,7 @@ const passwordCheck = async (user, password, res) => {
                
                 res.cookie('refreshToken', refreshToken, { httpOnly: true })
                 res.status(200).send({accessToken: accessToken,
-                       _id: user._id, 
+                       userId: user._id, 
                        userName: user.userName, 
                        userType: user.userType})
 
@@ -255,8 +255,8 @@ let issueNewToken = async (refreshToken, res) => {
     try {
         await Teacher.find({refreshToken: refreshToken}).then((userData) => {
             const [teacher] = userData;
-            // console.log(`The user is: ${teacher}`);
-            // console.log(`The user's id is: ${teacher._id}`);
+            console.log(`The user is: ${teacher}`);
+            console.log(`The user's id is: ${teacher._id}`);
 
             // if(user.userType === 'teacher' || 'admin'){
                 console.log('Teacher found!')
@@ -276,7 +276,7 @@ let issueNewToken = async (refreshToken, res) => {
                 saveRefreshToken(teacher, newRefreshToken, res)
                 
                 res.cookie('refreshToken', newRefreshToken, {httpOnly: true});
-                res.status(200).send({accessToken: newAccessToken, userName: teacher.userName, userType: teacher.userType}  )
+                res.status(200).send({accessToken: newAccessToken, userName: teacher.userName, userId: teacher._id, userType: teacher.userType}  )
             
             if(userData === null || 'undefined'){
                 Student.find({refreshToken: refreshToken}).then((studentData) => {
@@ -296,7 +296,7 @@ let issueNewToken = async (refreshToken, res) => {
                     
                     saveRefreshToken(student, newRefreshToken, res)
                     res.cookie('refreshToken', newRefreshToken, {httpOnly: true});
-                    res.status(200).send({accessToken: newAccessToken, userName: student.userName, userType: studentSchema.userType}  )
+                    res.status(200).send({accessToken: newAccessToken, userName: student.userName, userId: student._id, userType: student.userType}  )
                 })
 
             }
