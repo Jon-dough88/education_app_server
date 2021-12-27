@@ -261,7 +261,7 @@ let issueNewToken = async (refreshToken, res) => {
             // if(user.userType === 'teacher' || 'admin'){
                 console.log('Teacher found!')
                 let newAccessToken = jwt.sign({
-                    id: teacher._id,
+                    userId: teacher._id,
                     userName: teacher.userName,
                     userType: teacher.userType
                 }, 
@@ -282,7 +282,7 @@ let issueNewToken = async (refreshToken, res) => {
                 Student.find({refreshToken: refreshToken}).then((studentData) => {
                     const [student] = studentData;
                     let newAccessToken = jwt.sign({
-                        id: student._id,
+                        userId: student._id,
                         userName: student.userName,
                         userType: student.userType
                     }, 
