@@ -16,7 +16,7 @@ groupRouter.post('/fetch', async(req, res) => {
             userName
         , {groups: 1, _id: 1}).then(result => {
             console.log(result)
-            res.status(200).json({result, "message": `${userName}'s groups fetched`})
+            res.status(200).json(result)
         }).catch(err => {
             console.log(err);
             res.status(404).send({err, "message": "No groups found"})

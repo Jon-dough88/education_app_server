@@ -23,10 +23,11 @@ const teacherSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    refreshToken: Object,
+    refreshToken: Object,   
     groups: [
         {
             groupName: String,
+            className: String,
             groupActive: Boolean,
             students: [
                 {
