@@ -174,11 +174,11 @@ const passwordCheck = async (user, password, res) => {
 let saveRefreshToken = async (user, refreshToken, res) => {
     try{
         
-        console.log(`The user at the refresh token function is: ${user}`)
+        // console.log(`The user at the refresh token function is: ${user}`)
         // if(user && user.userType === 'teacher'){
             await Teacher.findByIdAndUpdate({_id: user._id}, {refreshToken: refreshToken}, (err, result) => {
                if(result){
-                    console.log(`Saved teacher data: ${result}`)
+                    // console.log(`Saved teacher data: ${result}`)
                     if(result === null || 'undefined'){
                         Student.findByIdAndUpdate({_id: user._id}, {refreshToken: refreshToken}, (err, result) => {
                             console.log(`Saved student data: ${result}`) 
@@ -227,7 +227,7 @@ userRouter.post('/refreshToken', async (req, res) => {
         // console.log(`Username is: ${userName}`)
 
         let refreshToken = req.cookies.refreshToken;
-        console.log(`The refresh token is: ${refreshToken}`)
+        // console.log(`The refresh token is: ${refreshToken}`)
 
     issueNewToken(refreshToken, res)
 
@@ -254,7 +254,7 @@ let issueNewToken = async (refreshToken, res) => {
     try {
         await Teacher.find({refreshToken: refreshToken}).then((userData) => {
             const [teacher] = userData;
-            console.log(`The user is: ${teacher}`);
+            // console.log(`The user is: ${teacher}`);
             // console.log(`The user's id is: ${teacher._id}`);
 
             // if(user.userType === 'teacher' || 'admin'){

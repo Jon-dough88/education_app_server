@@ -2,7 +2,7 @@ const express = require('express');
 const groupRouter = express.Router();
 
 const Teacher = require('../models/teacherSchema');
-
+// const Group = require('')
 
 // Fetching all existing groups of a certain teacher
 
@@ -10,7 +10,7 @@ groupRouter.post('/fetch', async(req, res) => {
     try{
         const userName = req.body;
         // const [teacherUsername] = userName
-        console.log(`Username: ${userName}`)
+        console.log(`The teacher's username is: ${req.body.userName}`)
 
         await Teacher.findOne(
             userName

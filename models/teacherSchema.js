@@ -27,7 +27,7 @@ const teacherSchema = mongoose.Schema({
     groups: [
         {
             groupName: String,
-            className: String,
+            className: String, 
             groupActive: Boolean,
             students: [
                 {
