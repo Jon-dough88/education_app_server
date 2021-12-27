@@ -12,7 +12,8 @@ groupRouter.post('/fetch', async(req, res) => {
         console.log(`Username: ${userName}`)
         await Teacher.findOne({
             userName
-        }, {groups: 1, _id: 1}).then((result) => {
+        }, {groups: 1, _id: 1}).then(result => {
+            console.log(result)
             res.status(200).json({result, "message": `${userName}'s groups fetched`})
         }).catch(err => {
             console.log(err);
