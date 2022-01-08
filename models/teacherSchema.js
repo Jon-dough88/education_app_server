@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 
 const teacherSchema = mongoose.Schema({
-    // isTeacher: Boolean,
+    _id: mongoose.Types.ObjectId,
     userType: {
         type: String,
         enum: ['teacher', 'admin']
