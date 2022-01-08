@@ -228,21 +228,11 @@ userRouter.post('/refreshToken', async (req, res) => {
         // console.log(`Username is: ${userName}`)
 
         let refreshToken = req.cookies.refreshToken;
-        // console.log(`The refresh token is: ${refreshToken}`)
+       
 
     issueNewToken(refreshToken, res)
 
-        //  await Teacher.find({refreshToken: refreshToken}).then((userData) => {
-        //     const [user] = userData;
-        //     console.log(`The user is: ${user}`);
-        //     console.log(`The user's id is: ${user._id}`);
-
-        //     if(user.userType === 'teacher' || 'admin'){
-        //         console.log('Teacher found!')
-        //     }else if(user.userType === 'student'){
-        //         console.log('Student detected!')
-        //     }
-        // })
+    
         
     }catch(err){
         res.status(404).send({message: "Resource not found."})
@@ -255,8 +245,8 @@ let issueNewToken = async (refreshToken, res) => {
     try {
         await Teacher.find({refreshToken: refreshToken}).then((userData) => {
             const [teacher] = userData;
-            console.log(`The user is: ${teacher}`);
-            console.log(`The user's id is: ${teacher._id}`);
+            // console.log(`The user is: ${teacher}`);
+            // console.log(`The user's id is: ${teacher._id}`);
 
             // if(user.userType === 'teacher' || 'admin'){
                 console.log('Teacher found!')
