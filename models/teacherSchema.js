@@ -2,10 +2,10 @@ const mongoose = require('mongoose');
 
 
 const teacherSchema = mongoose.Schema({
-    // _id: {
-    //     type: String,
-    //     required: true
-    // },
+    _id: {
+        type: String,
+        required: true
+    },
     userType: {
         type: String,
         enum: ['teacher', 'admin']
