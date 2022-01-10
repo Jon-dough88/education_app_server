@@ -9,7 +9,8 @@ const Teacher = require('../models/teacherSchema');
 groupRouter.post('/fetch', async(req, res) => {
     
     try{
-        const userId = req.body;
+        // const userId = req.body;
+        const {_id: userId} = req.params;
         
         // const [teacherUsername] = userName
         console.log(`The teacher's user id is: ${userId}`)
