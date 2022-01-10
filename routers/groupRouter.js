@@ -16,7 +16,7 @@ groupRouter.post('/fetchAll', async(req, res) => {
         console.log(`The teacher's user id is: ${userId}`)
 
         // await Teacher.find(userName).then(result => {
-        await Teacher.findById({userId}).then(result => {    
+        await Teacher.findById(userId).then(result => {    
             console.log(`Result: ${result}`)
             // res.status(200).send(result)
         }).catch(err => {
