@@ -2,7 +2,18 @@ const express = require('express');
 const groupRouter = express.Router();
 
 const Teacher = require('../models/teacherSchema');
-// const Group = require('')
+
+
+// Fetching user data
+
+groupRouter.post('/fetchUser', async (req, res) => {
+    try {
+        let refreshToken = req.cookies.refreshToken;
+        
+    } catch (error) {
+        
+    }
+})
 
 // Fetching all existing groups of a certain teacher
 
@@ -19,7 +30,7 @@ groupRouter.post('/fetchAll/:userId', async(req, res) => {
         // await Teacher.find(userName).then(result => {
         await Teacher.findById(userId, {groups: 1}).then(result => {    
             console.log(`Result: ${result}`)
-            // res.status(200).send(result)
+            res.status(200).send(result)
         }).catch(err => {
             console.log(err);
             res.status(404).send({err, "message": "No groups found"})
