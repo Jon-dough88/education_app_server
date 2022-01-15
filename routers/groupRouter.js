@@ -2,7 +2,7 @@ const express = require('express');
 const groupRouter = express.Router();
 
 const Teacher = require('../models/teacherSchema');
-const { authenticateRefreshToken } = require('../authentication/authenticateToken');
+const authenticateRefreshToken = require('../authentication/authenticateToken');
 
 
 // Fetching user data
