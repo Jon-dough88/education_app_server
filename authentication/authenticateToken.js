@@ -1,11 +1,11 @@
 const jwt = require('jsonwebtoken');
 
 const authenticateRefreshToken = (req, res, next) => {
-    const authHeader = req.headers['authorization']
-    const refreshToken = authHeader && authHeader.split(' ')[1]
-    if(refreshToken === null) {
-        return res.sendStatus(401).send('Access denied')
-    } else {
+    // const authHeader = req.headers['authorization']
+    // const refreshToken = authHeader && authHeader.split(' ')[1]
+    // if(refreshToken === null) {
+    //     return res.sendStatus(401).send('Access denied')
+    // } else {
          const verified = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => { 
            if(err){
                res.sendStatus(403).send({message: "Access denied"})
@@ -16,7 +16,7 @@ const authenticateRefreshToken = (req, res, next) => {
              
            }
         })
-   }
+//    }
 }
 
 module.exports = authenticateRefreshToken
