@@ -9,7 +9,8 @@ const userRouter = express.Router();
 const Student = require('../models/studentSchema');
 const Teacher = require('../models/teacherSchema');
 
-const authenticateToken  = require('../authentication/authenticateToken');
+// const authenticateToken  = require('../authentication/authenticateToken');
+const authenticateRefreshToken = require('../authentication/authenticateToken');
 
 // A function for creating random strings
 const randomString = require('../utils/string');
@@ -21,6 +22,18 @@ const studentSchema = require('../models/studentSchema');
 
 // ****** CRUD operations ******
 
+
+// Fetching user data
+
+userRouter.get('/fetchUser', authenticateRefreshToken, async (req, res) => {
+    try {
+        res.send(req.user);
+        console.log(req.user)
+
+    } catch (error) {
+        res.send(error)
+    }
+})
 
 // Signing up
 
