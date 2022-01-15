@@ -25,7 +25,11 @@ const studentSchema = require('../models/studentSchema');
 
 // Fetching user data
 
-userRouter.get('/fetchUser', authenticateRefreshToken, async (req, res) => {
+userRouter.get('/fetchUser', async (req, res) => {
+    
+    let refreshToken = req.cookies.refreshToken;
+    console.log(refreshToken);
+    
     try {
         res.send(req.user);
         console.log(req.user)
