@@ -2,6 +2,7 @@ const express = require('express');
 const groupRouter = express.Router();
 
 const Teacher = require('../models/teacherSchema');
+const { authenticateRefreshToken } = require('../authentication/authenticateToken');
 
 
 // Fetching user data
@@ -9,7 +10,7 @@ const Teacher = require('../models/teacherSchema');
 groupRouter.post('/fetchUser', async (req, res) => {
     try {
         let refreshToken = req.cookies.refreshToken;
-        
+
     } catch (error) {
         
     }
