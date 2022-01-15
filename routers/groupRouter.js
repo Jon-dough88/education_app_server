@@ -2,19 +2,10 @@ const express = require('express');
 const groupRouter = express.Router();
 
 const Teacher = require('../models/teacherSchema');
-const authenticateRefreshToken = require('../authentication/authenticateToken');
 
 
-// Fetching user data
 
-groupRouter.post('/fetchUser', async (req, res) => {
-    try {
-        let refreshToken = req.cookies.refreshToken;
 
-    } catch (error) {
-        
-    }
-})
 
 // Fetching all existing groups of a certain teacher
 
