@@ -10,11 +10,13 @@ const Teacher = require('../models/teacherSchema');
 // Fetching all existing groups of a certain teacher
 
 
-groupRouter.post('/fetchAll/:userId', async(req, res) => {
-    
+// groupRouter.post('/fetchAll/:userId', async(req, res) => {
+    groupRouter.post('/fetchAll', async(req, res) => { 
+
     try{
-        // const userId = req.body;
-        const {userId} = req.params;
+        const {userId} = req.body;
+
+        // const {userId} = req.params;
         
         // const [teacherUsername] = userName
         console.log(`The teacher's user id is: ${userId}`)
@@ -36,9 +38,9 @@ groupRouter.post('/fetchAll/:userId', async(req, res) => {
 })
 
 
-groupRouter.post('/groupPages/:groupId', async (req, res) => {
+groupRouter.post('/groupPages', async (req, res) => {
     try {
-        const { groupId } = req.params;
+        const { groupId } = req.body;
         console.log(`The group's ID is: ${groupId}`)
 
         res.status(200).send('Group page GO!')
