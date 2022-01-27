@@ -22,7 +22,7 @@ const Teacher = require('../models/teacherSchema');
         console.log(`The teacher's user id is: ${userId}`)
 
         // await Teacher.find(userName).then(result => {
-        await Teacher.findById(userId, {groups: 1}).then(result => {    
+        await Teacher.findById({userId}, {groups: 1}).then(result => {    
             console.log(`Result: ${result}`)
             res.status(200).send(result)
         }).catch(err => {
