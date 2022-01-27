@@ -27,12 +27,17 @@ const studentSchema = require('../models/studentSchema');
 
 userRouter.get('/fetchUser', async (req, res) => {
     
-    let refreshToken = req.cookies.refreshToken;
-    console.log(refreshToken);
+    const refreshToken = req.cookies.refreshToken;
+    console.log(`The refresh token is : ${refreshToken}`);
     
     try {
-        res.send(req.user);
-        console.log(req.user)
+        await Teacher.find({refreshToken: refreshToken}).then((userData) => {
+            // const [teacher] = userData;
+            console.log(`The teacher's data is ${userData}`)
+            })
+            .catch(err => {
+                console.log(err)
+            })
 
     } catch (error) {
         res.send(error)
