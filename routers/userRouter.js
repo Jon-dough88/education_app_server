@@ -276,7 +276,7 @@ let issueNewToken = async (refreshToken, res) => {
                     userId: teacher._id,
                     userName: teacher.userName,
                     userType: teacher.userType,
-                    groups: teacher.groups
+                    // groups: teacher.groups
                 }, 
                     process.env.ACCESS_TOKEN_SECRET,
                     {
@@ -289,7 +289,7 @@ let issueNewToken = async (refreshToken, res) => {
                 saveRefreshToken(teacher, newRefreshToken, res)
                 
                 res.cookie('refreshToken', newRefreshToken, {httpOnly: true});
-                res.status(200).send({accessToken: newAccessToken, userName: teacher.userName, userId: teacher._id, userType: teacher.userType}  )
+                res.status(200).send({accessToken: newAccessToken, userName: teacher.userName, userId: teacher._id, userType: teacher.userType, groups: teacher.groups}  )
             
             if(userData === null || 'undefined'){
                 Student.find({refreshToken: refreshToken}).then((studentData) => {
