@@ -275,7 +275,8 @@ let issueNewToken = async (refreshToken, res) => {
                 let newAccessToken = jwt.sign({
                     userId: teacher._id,
                     userName: teacher.userName,
-                    userType: teacher.userType
+                    userType: teacher.userType,
+                    groups: teacher.groups
                 }, 
                     process.env.ACCESS_TOKEN_SECRET,
                     {
