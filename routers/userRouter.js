@@ -25,7 +25,7 @@ const studentSchema = require('../models/studentSchema');
 
 // Fetching user data
 
-userRouter.post('/fetchUser', async (req, res) => {
+userRouter.get('/fetchUser', async (req, res) => {
 
     try {
 

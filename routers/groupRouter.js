@@ -60,6 +60,22 @@ groupRouter.post('/groupPages', async (req, res) => {
     }
 })
 
+
+// Checking whether a group's name already exists
+groupRouter.get('/findGroup/userId', async (req, res) => {
+
+    try {
+        const {userId} = req.params;
+        console.log(userId);
+
+        
+
+    }catch(error){
+
+    }
+})
+
+
 // Creating a new group
 
 
