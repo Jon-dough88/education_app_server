@@ -68,7 +68,10 @@ groupRouter.post('/findGroup', async (req, res) => {
         const {userId, groupName} = req.body;
         console.log(`User ID is: ${userId}. The group name is: ${groupName}`);
 
-        // await Teacher.find()
+        await Teacher.find({userId}).then((result) => {
+            const [user] = result;
+            console.log(user)
+        })
 
 
     }catch(error){
