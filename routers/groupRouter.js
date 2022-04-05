@@ -62,16 +62,17 @@ groupRouter.post('/groupPages', async (req, res) => {
 
 
 // Checking whether a group's name already exists
-groupRouter.get('/findGroup/userId', async (req, res) => {
+groupRouter.post('/findGroup', async (req, res) => {
 
     try {
-        const {userId} = req.params;
-        console.log(userId);
+        const {userId, groupName} = req.body;
+        console.log(`User ID is: ${userId}. The group name is: ${groupName}`);
 
-        
+        // await Teacher.find()
+
 
     }catch(error){
-
+        console.log(error)
     }
 })
 
