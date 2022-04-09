@@ -68,8 +68,22 @@ groupRouter.post('/findGroup', async (req, res) => {
         const {userId, groupName} = req.body;
         console.log(`User ID is: ${userId}. The group name is: ${groupName}`);
 
-        await Teacher.find(userId).then(result => {
-            console.log(`Result: ${result}`)
+        await Teacher.find({_id: userId}).then((result) => {
+            const [user] = result;
+            console.log(`User's groups: ${user.groups}`);
+            
+            for (let i = 0; i < user.groups.length; i++){
+
+                if(user.groups[i].groupName === groupName){
+                    console.log("Name exists!")
+                    // res.status(400).send({groupNameExists: true})
+    
+                }else{
+                    console.log("Name doesn't exist")
+                    // res.status(200).send({groupNameExists: false})
+                } 
+            }
+            
             
         })
 
