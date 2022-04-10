@@ -70,19 +70,30 @@ groupRouter.post('/findGroup', async (req, res) => {
 
         await Teacher.find({_id: userId}).then((result) => {
             const [user] = result;
-            console.log(`User's groups: ${user.groups}`);
+            // console.log(`User's groups: ${user.groups}`);
             
-            for (let i = 0; i < user.groups.length; i++){
-
-                if(user.groups[i].groupName === groupName){
+            user.groups.filter((groups) => {
+                // if(groupName == ""){
+                //     return groups
+                if (groups.groupName.toLowerCase() === groupName.toLowerCase()){
                     console.log("Name exists!")
-                    // res.status(400).send({groupNameExists: true})
-    
+                    res.send({message: "Group name taken!", success: true})
                 }else{
-                    console.log("Name doesn't exist")
-                    // res.status(200).send({groupNameExists: false})
-                } 
-            }
+                    console.log("Name doesn't exist!")
+                    res.send({message: "Group name free!", success: false})
+                }
+            })
+            // for (let i = 0; i < user.groups.length; i++){
+
+            //     if(user.groups[i].groupName.toLowerCase() === groupName){
+            //         console.log("Name exists!")
+            //         res.status(400).send({message: "Group name taken!", groupNameExists: true})
+    
+            //     }else{
+            //         console.log("Name doesn't exist")
+            //         res.status(200).send({message: "Group name doesn't exist", groupNameExists: false})
+            //     } 
+            // }
             
             
         })
