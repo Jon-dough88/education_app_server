@@ -62,6 +62,7 @@ groupRouter.post('/groupPages', async (req, res) => {
 
 
 // Checking whether a group's name already exists
+
 groupRouter.post('/findGroup', async (req, res) => {
 
     try {
@@ -112,6 +113,10 @@ groupRouter.post('/findGroup', async (req, res) => {
 
 
 // Searching for a student's name
+
+groupRouter.post('/fetchStudentList', async (req, res) => {
+    
+})
 
 
 
