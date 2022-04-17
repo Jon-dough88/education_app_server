@@ -116,6 +116,15 @@ groupRouter.post('/findGroup', async (req, res) => {
 
 groupRouter.post('/fetchStudentList', async (req, res) => {
     
+    try {
+        const userId = req.body;
+        console.log(`User ID: ${userId}`);
+
+
+    } catch (error) {
+        
+    }
+
 })
 
 
