@@ -120,6 +120,15 @@ groupRouter.post('/fetchStudentList', async (req, res) => {
         const userId = req.body;
         console.log(`User ID: ${userId}`);
 
+        await Teacher.find(userId, 
+            // {"groups": 
+            {"$elemMatch": {"students": {"$in": "groups"} 
+            // } 
+            }})
+            .then(result => {
+                console.log(`Student list: ${result}`);
+            })
+
 
     } catch (error) {
         
