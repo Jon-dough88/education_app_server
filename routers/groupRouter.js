@@ -114,7 +114,7 @@ groupRouter.post('/findGroup', async (req, res) => {
 
 // Searching for a student's name
 
-groupRouter.post('/fetchStudentList/userId', async (req, res) => {
+groupRouter.get('/fetchStudentList/userId', async (req, res) => {
     
     try {
         // const userId = req.body;
