@@ -114,21 +114,22 @@ groupRouter.post('/findGroup', async (req, res) => {
 
 // Searching for a student's name
 
-groupRouter.post('/fetchStudentList', async (req, res) => {
+groupRouter.post('/fetchStudentList/userId', async (req, res) => {
     
     try {
-        const userId = req.body;
+        // const userId = req.body;
+        const {userId} = req.params;
         console.log(`User ID: ${userId}`);
 
         // await Teacher.find(userId, 
-        //     {"groups": {"$elemMatch": {"students": {"$in": "groups"} } }})
+        //     {"groups": {"$elemMatch": {"students": {"$in": ["groups"]} } }})
         //     .then(result => {
         //         console.log(`Student list: ${result}`);
         //     })
 
-        await Teacher.find(userId, {students: 1})
+        await Teacher.find(userId)
             .then(result => {
-                console.log(`Students: ${result}`)
+                    console.log(`Student list: ${result}`);
             })
 
 
