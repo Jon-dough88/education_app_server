@@ -117,24 +117,55 @@ groupRouter.post('/findGroup', async (req, res) => {
 groupRouter.post('/fetchStudentList', async (req, res) => {
     
     try {
-        const {userId} = req.body;
-        // const {userId} = req.params;
-        console.log(`User ID: ${userId}`);
+        const {userId, userName} = req.body;
+        console.log(`User ID: ${userId}. Student name: ${userName}`);
 
-        // await Teacher.find(userId, 
+        // await Teacher.find({_id: userId}, 
         //     {"groups": {"$elemMatch": {"students": {"$in": ["groups"]} } }})
         //     .then(result => {
         //         console.log(`Student list: ${result}`);
         //     })
 
-        await Teacher.find(userId)
-            .then(result => {
-                    console.log(`Student list: ${result}`);
+
+        // await Teacher.find({_id: userId }, {_id: 0, groups: 1})
+        // .then(result => {
+        //             // const [groups] = result;
+        //             // console.log(groups);
+        //             // console.log(groups);
+        //             // console.log(`Student list: ${result}`);
+        //             // const {studentList} = groups;
+        //             // console.log(studentList)
+        //             // console.log(`Student list: ${studentList}`);
+        //             console.log(result);
+        //     })
+
+        const user = {userName: `${userName}`};
+        console.log(user);
+
+        await Teacher.aggregate([
+            // {'$unwind': '$groups'},
+            // {'$unwind': '$groups.students'},
+            // {'$unwind': '$students'}
+            { '$match': user },
+            // {'$unwind': '$groups'},
+            {'$project': {'students': '$groups.students'}},
+            
+        ]).then(result => {
+                    console.log(result)
+                    // res.status(200).send(result);
             })
 
 
+        // await Teacher.find({_id: userId}, {_id: 0, groups: 1})
+        //     .then(result => {
+        //         // console.log(result)
+        //         console.log(result);
+                
+        //     })
+
+
     } catch (error) {
-        
+        console.log(error)
     }
 
 })
