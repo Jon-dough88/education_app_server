@@ -147,7 +147,9 @@ groupRouter.post('/fetchStudentList', async (req, res) => {
             // {'$unwind': '$groups.students'},
             // {'$unwind': '$students'}
             { '$match': user },
-            // {'$unwind': '$groups'},
+            // {'$group': {
+            //             _id: '$groups.students'
+            //             }},
             {'$project': {'students': '$groups.students'}},
             
         ]).then(result => {
