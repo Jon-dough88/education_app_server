@@ -145,7 +145,7 @@ groupRouter.post('/fetchStudentList', async (req, res) => {
         await Teacher.aggregate([
             // {'$unwind': '$groups'},
             // {'$unwind': '$groups.students'},
-            // {'$unwind': '$students'}
+            // {'$unwind': '$groups.students'}
             { '$match': user },
             // {'$group': {
             //             _id: '$groups.students'
@@ -153,8 +153,9 @@ groupRouter.post('/fetchStudentList', async (req, res) => {
             {'$project': {'students': '$groups.students'}},
             
         ]).then(result => {
-                    console.log(result)
-                    // res.status(200).send(result);
+                    const [studentList] = result;
+                    console.log(studentList);
+                    res.status(200).send(studentList);
             })
 
 
