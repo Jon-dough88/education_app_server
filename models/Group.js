@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const groupSchema = mongoose.Schema({
     groupName: String,
+    groupLevel: String,
     groupActive: Boolean,
     students: [
         {
