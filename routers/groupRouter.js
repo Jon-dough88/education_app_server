@@ -2,6 +2,7 @@ const express = require('express');
 const groupRouter = express.Router();
 
 const Teacher = require('../models/teacherSchema');
+const Group =  require('../models/Group');
 
 
 
@@ -107,6 +108,21 @@ groupRouter.post('/findGroup', async (req, res) => {
 
 
 // Creating a new group
+
+groupRouter.post('/createGroup', async (req, res) => {
+    try {
+
+        console.log(req.body)
+        const values = req.body;
+        const newGroupData = {};
+        newGroupData.groupName = values.groupName;
+        newGroupData.groupLevel = values.groupLevel;
+        
+
+    } catch (error) {
+        console.log(error)
+    }
+})
 
 
 // Editing a group's details
