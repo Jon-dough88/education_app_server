@@ -110,15 +110,21 @@ groupRouter.post('/findGroup', async (req, res) => {
 // Creating a new group
 
 groupRouter.post('/createGroup', async (req, res) => {
+
     try {
 
         console.log(req.body)
         const values = req.body;
-        const newGroupData = {};
+        const groupData = {};
+        let newGroupData = {};
         newGroupData.groupName = values.groupName;
         newGroupData.groupLevel = values.groupLevel;
-        let newGroup = new Group(newGroupData);
+        let newGroup = new Group(...groupData, newGroupData);
         await newGroup.save();
+
+        console.log(newGroup)
+
+        res.status(200).send({message: "New group created!", groupData: newGroup})
 
     } catch (error) {
         console.log(error)
