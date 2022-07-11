@@ -125,7 +125,7 @@ groupRouter.post('/createGroup', async (req, res) => {
         // let newGroup = new Group(newGroupData);
         // await newGroup.save();
 
-        console.log(newGroup)
+        // console.log(newGroup)
 
         res.status(200).send({message: "New group created!", groupData: newGroup})
 
