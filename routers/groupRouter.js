@@ -115,11 +115,15 @@ groupRouter.post('/createGroup', async (req, res) => {
 
         console.log(req.body)
         const values = req.body;
+        console.log(req.body.userId);
+        
         const newGroupData = {};
-        newGroupData.groupName = values.groupName;
-        newGroupData.groupLevel = values.groupLevel;
-        let newGroup = new Group(newGroupData);
-        await newGroup.save();
+        newGroupData.groupName = req.body.groupName;
+        newGroupData.groupLevel = req.body.groupLevel;
+        console.log(`New group's data: ${newGroupData}`);
+
+        // let newGroup = new Group(newGroupData);
+        // await newGroup.save();
 
         console.log(newGroup)
 
