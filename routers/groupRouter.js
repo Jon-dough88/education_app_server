@@ -129,16 +129,25 @@ groupRouter.post('/createGroup', async (req, res) => {
             groupActive: true,
         });
 
-        await Teacher.findOne({_id: userId})
-        .then((userFound) => {
-            // console.log(`User's data at group creation: ${userFound}`)
-            userFound.groups.push(newGroup);
-            Teacher.updateOne({_id: userFound._id}, { $set: userFound});
-            res.send({message: `Group ${newGroup.groupName} added to ${userFound.userName}'s group list`, groupData: newGroup})
-        })
-        .catch((err) => {
+        await Teacher.updateOne({_id: userId}, {
+            $push: {
+                "groups": { newGroup } 
+            }
+        }).then(() => {
+            res.status(200).send({message: `Group ${newGroup.groupName} added to ${userFound.userName}'s group list`, groupData: newGroup})
+        }).catch( (err) => {
             console.log(err)
         })
+        // await Teacher.findOne({_id: userId})
+        // .then((userFound) => {
+        //     console.log(`User's data at group creation: ${userFound}`)
+        //     // userFound.groups.push(newGroup);
+        //     Teacher.updateOne({_id: userFound._id}, { $push: {"groups": newGroup}});
+        //     res.send({message: `Group ${newGroup.groupName} added to ${userFound.userName}'s group list`, groupData: newGroup})
+        // })
+        // .catch((err) => {
+        //     console.log(err)
+        // })
 
         await newGroup.save();
       
