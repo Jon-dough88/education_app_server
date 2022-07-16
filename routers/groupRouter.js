@@ -114,8 +114,8 @@ groupRouter.post('/createGroup', async (req, res) => {
     try {
 
         console.log(req.body)
-        const values = req.body;
-        console.log(req.body.userId);
+        // const values = req.body;
+        console.log(`Group name: ${req.body.values.groupName}. User ID: ${req.body.userId}`);
         
         // const newGroupData = {};
         // newGroupData.groupName = req.body.groupName;
@@ -123,18 +123,20 @@ groupRouter.post('/createGroup', async (req, res) => {
         // console.log(`Group name: ${newGroupData.groupName}. Group level: ${newGroupData.groupLevel}`);
 
         let newGroup = new Group({
-            groupName: values.groupName,
-            groupLevel: values.groupLevel,
+            groupName: req.body.values.groupName,
+            groupLevel: req.body.values.groupLevel,
             groupActive: true,
         });
 
-        await newGroup.save();
+        // await newGroup.save().then(() => {
+        //     await Teacher.find()
+        // })
 
-        console.log(`The new group just created is: ${newGroup}`)
+        console.log(`The new group just created is: ${newGroup}`);
 
         res.status(200).send(
             {message: "New group created!", 
-            // groupData: newGroup
+            groupData: newGroup
         })
 
     } catch (error) {
