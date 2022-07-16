@@ -131,7 +131,13 @@ groupRouter.post('/createGroup', async (req, res) => {
 
         await Teacher.updateOne({_id: userId}, {
             $push: {
-                "groups": { newGroup } 
+                "groups": { 
+                    "groupName": newGroup.groupName,
+                    "groupLevel": newGroup.groupLevel,
+                    "groupActive": newGroup.groupActive,
+                    "students": [],
+                    "created": $currentDate
+                } 
             }
         }).then(() => {
             res.status(200).send({message: `Group ${newGroup.groupName} added to ${userFound.userName}'s group list`, groupData: newGroup})
