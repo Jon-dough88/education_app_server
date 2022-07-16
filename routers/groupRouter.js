@@ -132,7 +132,8 @@ groupRouter.post('/createGroup', async (req, res) => {
         await newGroup.save();
         await Teacher.findOne({_id: userId})
                 .then((userFound) => {
-                    console.log(`User's data at group creation: ${userFound}`)
+                    // console.log(`User's data at group creation: ${userFound}`)
+                    userFound.groups.push(newGroup)
                 })
                 .catch((err) => {
                     console.log(err)
