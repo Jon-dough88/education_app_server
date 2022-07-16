@@ -116,6 +116,7 @@ groupRouter.post('/createGroup', async (req, res) => {
         console.log(req.body)
         // const values = req.body;
         console.log(`Group name: ${req.body.values.groupName}. User ID: ${req.body.userId}`);
+        const {userId} = req.body;
         
         // const newGroupData = {};
         // newGroupData.groupName = req.body.groupName;
