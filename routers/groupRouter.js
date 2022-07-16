@@ -134,7 +134,7 @@ groupRouter.post('/createGroup', async (req, res) => {
             // console.log(`User's data at group creation: ${userFound}`)
             userFound.groups.push(newGroup);
             Teacher.updateOne({_id: userFound._id}, { $set: userFound});
-            res.send({message: `Group ${newGroup.groupName} added to ${userFound.userName}'s group list`})
+            res.send({message: `Group ${newGroup.groupName} added to ${userFound.userName}'s group list`, groupData: newGroup})
         })
         .catch((err) => {
             console.log(err)
@@ -145,10 +145,10 @@ groupRouter.post('/createGroup', async (req, res) => {
 
         console.log(`The new group just created is: ${newGroup}`);
 
-        res.status(200).send(
-            {message: "New group created!", 
-            groupData: newGroup
-        })
+        // res.status(200).send(
+        //     {message: "New group created!", 
+        //     groupData: newGroup
+        // })
 
     } catch (error) {
         console.log(error)
