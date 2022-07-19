@@ -47,7 +47,7 @@ groupRouter.post('/groupPages', async (req, res) => {
         const groupId = req.body;
         console.log(`The group's ID is: ${groupId}`)
 
-        await Group.find({_id: groupId})
+        await Group.find(groupId)
             .then(response => {
                 console.log(response)   
                 res.status(200).send(response)
