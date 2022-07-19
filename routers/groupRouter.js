@@ -42,14 +42,15 @@ groupRouter.post('/fetchAll/userId', async(req, res) => {
 })
 
 
-groupRouter.post('/groupPages', async (req, res) => {
+groupRouter.post('/groupPages/groupId', async (req, res) => {
+
     try {
-        const groupId = req.body;
+        const {groupId} = req.params;
         console.log(groupId);
 
-        await Group.findOne(groupId)
+        await Group.find(groupId)
             .then(response => {
-                console.log(response)   
+                console.log(`Response: ${response}`)   
                 res.status(200).send(response)
             }).catch(err => {
                 console.log(err);
