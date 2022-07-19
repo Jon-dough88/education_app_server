@@ -53,7 +53,7 @@ groupRouter.post('/groupPages', async (req, res) => {
 
         await Group.find({_id: groupId})
             .then((response) => {
-                console.log(`Response: ${response}`)   
+                console.log(response)   
                 res.status(200).send(response)
             }).catch(err => {
                 console.log(err);

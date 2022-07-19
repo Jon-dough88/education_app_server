@@ -19,9 +19,9 @@ const groupSchema = mongoose.Schema({
         }
     ],
 
-})
-// }, {collection: 'groups'})
+// })
+}, {collection: 'groupData'})
 
 
-const Group = mongoose.model('Group', groupSchema);
-module.exports = Group;
+
+module.exports = Group = mongoose.model('Group', groupSchema);
