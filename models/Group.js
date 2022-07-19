@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const groupSchema = mongoose.Schema({
-    _id: mongoose.Types.ObjectId,
+    groupId: mongoose.Types.ObjectId,
     groupName: String,
     groupLevel: String,
     groupActive: Boolean,
@@ -19,8 +19,8 @@ const groupSchema = mongoose.Schema({
         }
     ],
 
-            
 })
+// }, {collection: 'groups'})
 
 
 const Group = mongoose.model('Group', groupSchema);
