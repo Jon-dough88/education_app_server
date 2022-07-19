@@ -19,7 +19,7 @@ const groupSchema = mongoose.Schema({
     ],
 
             
-}, {collection: 'groups'})
+})
 
 
 const Group = mongoose.model('Group', groupSchema);
