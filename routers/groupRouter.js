@@ -44,11 +44,12 @@ groupRouter.post('/fetchAll/userId', async(req, res) => {
 
 groupRouter.post('/groupPages', async (req, res) => {
     try {
-        const groupId = req.body;
+        const {groupId} = req.body;
         console.log(`The group's ID is: ${groupId}`)
 
-        await Teacher.find(groupId)
+        await Group.findOne({_id: groupId})
             .then(response => {
+                console.log(response)
                 res.status(200).send(response)
             }).catch(err => {
                 console.log(err);
@@ -135,8 +136,7 @@ groupRouter.post('/createGroup', async (req, res) => {
                     "groupName": newGroup.groupName,
                     "groupLevel": newGroup.groupLevel,
                     "groupActive": newGroup.groupActive,
-                    "students": [],
-                    "created": $currentDate
+                    // "created": $currentDate
                 } 
             }
         }).then(() => {
