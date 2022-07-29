@@ -20,7 +20,7 @@ const groupSchema = mongoose.Schema({
     ],
 
 // })
-}, {collection: 'groupData'})
+}, {collection: 'groups'})
 
 
 

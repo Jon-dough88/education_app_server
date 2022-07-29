@@ -51,10 +51,40 @@ groupRouter.post('/groupPages', async (req, res) => {
         const {groupId} = req.body;
         console.log(`The group ID at groupRouter is: ${groupId}`);
 
-        await Group.find({_id: groupId})
+        // await Teacher.find({groups: {$elemMatch: {_id: groupId}}})
+        await Teacher.find({
+            "groups._id": `${groupId}`
+        }, {
+            "groups": {
+                "$elemMatch": {
+                    "_id": `${groupId}`
+                }
+            }
+        })
+        //  await Group.find({_id: groupId})
+        // await Teacher.aggregate([{$match: {_id: groupId }}])
+        // await Teacher.aggregate([
+        //     {
+        //         $project: {
+        //             "matchedGroup": {
+        //                 $filter: {
+        //                     input: "matchedGroup",
+        //                     as: "match", 
+        //                     cond: {
+        //                         $eq: [
+        //                             "$$match._id",
+        //                             mongoose.Types.ObjectId(`${groupId}`)
+        //                         ]
+        //                     }
+        //                 }
+        //             }
+        //         }
+        //     }
+        // ])
+
             .then((response) => {
-                console.log(response)   
-                res.status(200).send(response)
+                console.log(response[0].groups)   
+                res.status(200).send(response[0].groups)
             }).catch(err => {
                 console.log(err);
                 res.status(404).send(err)
